@@ -1,0 +1,44 @@
+package com.example.othello;
+
+import java.util.Scanner;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+        try (ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args)) {
+            Application app = ctx.getBean(Application.class);
+            app.run();
+        } catch (Exception e) {
+            System.out.println("Application Error!");
+            e.printStackTrace();
+        }
+    }
+
+    private void run() throws Exception {
+        Terminal.view();
+
+        Player player = new Player();
+        player.setFirst();
+
+        try(Scanner scanner = new Scanner(System.in)){
+            while(true) {
+                Terminal.requestInput(player.getName());
+
+                String input = scanner.nextLine();
+                if(input.equals(Const.KEY_END)) {
+                    break;
+                }
+
+                System.out.println("input = " + input);
+                player.change();
+            }
+        }
+
+        Terminal.bye();
+    }
+}
