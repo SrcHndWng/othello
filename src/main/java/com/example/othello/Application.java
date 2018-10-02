@@ -20,7 +20,8 @@ public class Application {
     }
 
     private void run() throws Exception {
-        Terminal.view();
+        Board board = new Board();
+        Terminal.view(board);
 
         Player player = new Player();
         player.setFirst();

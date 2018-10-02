@@ -3,17 +3,6 @@ package com.example.othello;
 public class Player {
     private Stone inputStone;
 
-    private enum Stone{
-        BLACK(1),
-        WHITE(2);
-
-        private final int id;
-
-        private Stone(final int id) {
-            this.id = id;
-        }
-    };
-
     public void setFirst() {
         inputStone = Stone.BLACK;
     }
@@ -23,10 +12,15 @@ public class Player {
     }
 
     public void change() {
-        if(inputStone == Stone.BLACK) {
+        switch(inputStone) {
+        case BLACK:
             inputStone = Stone.WHITE;
-        }else {
+            break;
+        case WHITE:
             inputStone = Stone.BLACK;
+            break;
+        default:
+            throw new IllegalStateException("Stone uninitialized.");
         }
     }
 }

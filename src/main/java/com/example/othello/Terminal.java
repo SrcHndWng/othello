@@ -1,16 +1,30 @@
 package com.example.othello;
 
+import java.util.ArrayList;
+
 public class Terminal {
-    public static void view() {
+    public static void view(Board board) {
         System.out.println("- abcdefgh");
-        System.out.println("1 --------");
-        System.out.println("2 --------");
-        System.out.println("3 --------");
-        System.out.println("4 ---XO---");
-        System.out.println("5 ---OX---");
-        System.out.println("6 --------");
-        System.out.println("7 --------");
-        System.out.println("8 --------");
+        for(int i = 0; i < board.getStones().size(); i++) {
+            ArrayList<Stone> row = board.getStones().get(i);
+            StringBuilder column = new StringBuilder();
+            row.forEach(col -> {
+                switch(col) {
+                case NONE:
+                    column.append("-");
+                    break;
+                case BLACK:
+                    column.append("X");
+                    break;
+                case WHITE:
+                    column.append("O");
+                    break;
+                default:
+                    throw new IllegalStateException("Illegal Stone.");
+                }
+            });
+            System.out.println(i + " " + column.toString());
+        }
     }
 
     public static void requestInput(String player) {
