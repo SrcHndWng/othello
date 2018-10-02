@@ -30,12 +30,12 @@ public class Application {
             while(true) {
                 Terminal.requestInput(player.getName());
 
-                String input = scanner.nextLine();
-                if(input.equals(Const.KEY_END)) {
+                String key = scanner.nextLine();
+                if(key.equals(Const.KEY_END)) {
                     break;
                 }
 
-                System.out.println("input = " + input);
+                System.out.println("input = " + key);
                 player.change();
             }
         }

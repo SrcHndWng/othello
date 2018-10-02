@@ -5,6 +5,23 @@ import java.util.ArrayList;
 public class Board {
     private ArrayList<ArrayList<Stone>> stones;
 
+    public enum ColumnTitle{
+        a(0),
+        b(1),
+        c(2),
+        d(3),
+        e(4),
+        f(5),
+        g(6),
+        h(7);
+
+        private final int id;
+
+        private ColumnTitle(final int id) {
+            this.id = id;
+        }
+    };
+
     public Board() {
         stones = new ArrayList<ArrayList<Stone>>();
         for(int i = 0; i < Const.MAX_ROW_COL_NUM; i++) {
@@ -28,5 +45,38 @@ public class Board {
 
     public ArrayList<ArrayList<Stone>> getStones(){
         return stones;
+    }
+
+    public void input(Player player, String key) {
+        int inputRow = Integer.parseInt(key.substring(0, 1));
+        int inputCol = getInputCol(key);
+
+        swapUpper(player.getInputStone(), inputRow, inputCol); // TODO: 上方向にループして石を変える
+        // TODO: 下方向にループして石を変える
+        // TODO: 右方向にループして石を変える
+        // TODO: 左方向にループして石を変える
+        // TODO: 右上方向にループして石を変える
+        // TODO: 右下方向にループして石を変える
+        // TODO: 左上方向にループして石を変える
+        // TODO: 左下方向にループして石を変える
+        // TODO: いづれもヒットしなければエラー
+    }
+
+    private void swapUpper(Stone inputStone, int inputRow, int inputCol) {
+        int edgeRow = 0;
+        for(int i = inputRow; i >= 0; i--) {
+            if(stones.get(i).get(inputCol) == inputStone) {
+                edgeRow = i;
+                break;
+            }
+        }
+
+        for(int i = inputRow; i >= edgeRow; i--) {
+            stones.get(i).set(inputCol, inputStone);
+        }
+    }
+
+    private int getInputCol(String key) {
+        return ColumnTitle.valueOf(key.substring(1)).id;
     }
 }

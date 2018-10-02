@@ -7,6 +7,10 @@ public class Player {
         inputStone = Stone.BLACK;
     }
 
+    public Stone getInputStone() {
+        return inputStone;
+    }
+
     public String getName() {
         return inputStone.toString();
     }
