@@ -13,7 +13,7 @@ public class BoardTests {
 
     @Before
     public void doBefore() {
-        board = new Board();
+        board = Board.initialize();
         player = new Player();
     }
 

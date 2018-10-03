@@ -451,7 +451,7 @@ public class Board {
         }
     };
 
-    public Board() {
+    private Board() {
         stones = new ArrayList<ArrayList<Stone>>();
         for(int i = 0; i < Const.MAX_ROW_COL_NUM; i++) {
             ArrayList<Stone> column = new ArrayList<Stone>();
@@ -470,6 +470,10 @@ public class Board {
             }
             stones.add(column);
         }
+    }
+
+    public static Board initialize() {
+        return new Board();
     }
 
     public ArrayList<ArrayList<Stone>> getStones(){

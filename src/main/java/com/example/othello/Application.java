@@ -20,7 +20,7 @@ public class Application {
     }
 
     private void run() throws Exception {
-        Board board = new Board();
+        Board board = Board.initialize();
 
         Player player = new Player();
         player.setFirst();
