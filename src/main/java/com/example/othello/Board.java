@@ -6,6 +6,434 @@ public class Board {
     private ArrayList<ArrayList<Stone>> stones;
     private final int UNDEFINED_ROW_COL = -1;
 
+    private abstract class SwapStones{
+        Stone inputStone;
+        int inputRow;
+        int inputCol;
+
+        protected class Edge{
+            private int row;
+            private int col;
+            public Edge(int row, int col) {
+                this.row = row;
+                this.col = col;
+            }
+        }
+
+        public SwapStones(Stone inputStone, int inputRow, int inputCol) {
+            this.inputStone = inputStone;
+            this.inputRow = inputRow;
+            this.inputCol = inputCol;
+        }
+        public int exec(){
+            if(!isEnableSwap()) {
+                return 0;
+            }
+            Edge edge = getEdge();
+            if(!isExistEdge(edge.row, edge.col)) {
+                return 0;
+            }
+            return swap(edge.row, edge.col);
+        }
+        abstract protected Boolean isEnableSwap();
+        abstract protected Edge getEdge();
+        abstract protected int swap(int edgeRow, int edgeCol);
+        protected Boolean isExistEdge(int edgeRow, int edgeCol) {
+            return (edgeRow > UNDEFINED_ROW_COL) && (edgeCol > UNDEFINED_ROW_COL);
+        }
+    }
+
+    private class SwapToUpper extends SwapStones{
+        public SwapToUpper(Stone inputStone, int inputRow, int inputCol) {
+            super(inputStone, inputRow, inputCol);
+        }
+
+        @Override
+        protected int swap(int edgeRow, int edgeCol) {
+            for(int i = inputRow; i >= edgeRow; i--) {
+                if(i < 0) {
+                    break;
+                }
+                stones.get(i).set(inputCol, inputStone);
+            }
+            return 1;
+        }
+
+        @Override
+        protected Edge getEdge() {
+            int edgeRow = UNDEFINED_ROW_COL;
+            for(int i = inputRow; i >= 0; i--) {
+                if(i < 0) {
+                    break;
+                }
+                if(stones.get(i).get(inputCol) == inputStone) {
+                    edgeRow = i;
+                    break;
+                }
+            }
+            return new Edge(edgeRow, this.inputCol);
+        }
+
+        @Override
+        protected Boolean isEnableSwap() {
+            int checkRow = this.inputRow - 1;
+            if(checkRow < 0) return false;
+            return stones.get(checkRow).get(this.inputCol) != this.inputStone;
+        }
+    }
+
+    private class SwapToLower extends SwapStones{
+        public SwapToLower(Stone inputStone, int inputRow, int inputCol) {
+            super(inputStone, inputRow, inputCol);
+        }
+
+        @Override
+        protected int swap(int edgeRow, int edgeCol) {
+            for(int i = inputRow; i <= edgeRow; i++) {
+                if(i >= stones.size()) {
+                    break;
+                }
+                stones.get(i).set(inputCol, inputStone);
+            }
+            return 1;
+        }
+
+        @Override
+        protected Edge getEdge() {
+            int edgeRow = UNDEFINED_ROW_COL;
+            for(int i = inputRow; i < stones.size(); i++) {
+                if(i >= stones.size()) {
+                    break;
+                }
+                if(stones.get(i).get(inputCol) == inputStone) {
+                    edgeRow = i;
+                    break;
+                }
+            }
+            return new Edge(edgeRow, this.inputCol);
+        }
+
+        @Override
+        protected Boolean isEnableSwap() {
+            int checkRow = this.inputRow + 1;
+            if(checkRow >= stones.size()) {
+                return true;
+            }
+            return stones.get(checkRow).get(this.inputCol) != this.inputStone;
+        }
+
+    }
+
+    private class SwapToRight extends SwapStones{
+        public SwapToRight(Stone inputStone, int inputRow, int inputCol) {
+            super(inputStone, inputRow, inputCol);
+        }
+
+        @Override
+        protected Boolean isEnableSwap() {
+            int checkCol = this.inputCol + 1;
+            if(checkCol >= stones.get(this.inputRow).size()) return true;
+            return stones.get(this.inputRow).get(checkCol) != this.inputStone;
+        }
+
+        @Override
+        protected Edge getEdge() {
+            int edgeCol = UNDEFINED_ROW_COL;
+            for(int i = inputCol; i < stones.get(inputRow).size(); i++) {
+                if(i >= stones.get(inputRow).size()) {
+                    break;
+                }
+                if(stones.get(inputRow).get(i) == inputStone) {
+                    edgeCol = i;
+                    break;
+                }
+            }
+            return new Edge(this.inputRow, edgeCol);
+        }
+
+        @Override
+        protected int swap(int edgeRow, int edgeCol) {
+            for(int i = inputCol; i <= edgeCol; i++) {
+                if(i >= stones.get(inputRow).size()) {
+                    break;
+                }
+                stones.get(inputRow).set(i, inputStone);
+            }
+            return 1;
+        }
+
+    }
+
+    private class SwapToLeft extends SwapStones{
+        public SwapToLeft(Stone inputStone, int inputRow, int inputCol) {
+            super(inputStone, inputRow, inputCol);
+        }
+
+        @Override
+        protected Boolean isEnableSwap() {
+            int checkCol = this.inputCol -1;
+            if(checkCol < 0) {
+                return true;
+            }
+            return stones.get(this.inputRow).get(checkCol) != this.inputStone;
+        }
+
+        @Override
+        protected Edge getEdge() {
+            int edgeCol = UNDEFINED_ROW_COL;
+            for(int i = inputCol; i >= 0; i--) {
+                if(i < 0) {
+                    break;
+                }
+                if(stones.get(inputRow).get(i) == inputStone) {
+                    edgeCol = i;
+                    break;
+                }
+            }
+            return new Edge(this.inputRow, edgeCol);
+        }
+
+        @Override
+        protected int swap(int edgeRow, int edgeCol) {
+            for(int i = inputCol; i >= edgeCol; i--) {
+                if(i < 0) {
+                    break;
+                }
+                stones.get(inputRow).set(i, inputStone);
+            }
+            return 1;
+        }
+
+    }
+
+    private class SwapToRightUpper extends SwapStones{
+        public SwapToRightUpper(Stone inputStone, int inputRow, int inputCol) {
+            super(inputStone, inputRow, inputCol);
+        }
+
+        @Override
+        protected int swap(int edgeRow, int edgeCol) {
+            int k = inputCol;
+            for(int row = inputRow; row >= edgeRow; row--) {
+                if(row < 0) {
+                    break;
+                }
+                if(k >= stones.get(inputRow).size()) {
+                    break;
+                }
+                stones.get(row).set(k, inputStone);
+                k++;
+            }
+            return 1;
+        }
+
+        @Override
+        protected Edge getEdge() {
+            int j = inputCol;
+            int edgeRow = UNDEFINED_ROW_COL;
+            int edgeCol = UNDEFINED_ROW_COL;
+            for(int i = inputRow; i >= 0; i--) {
+                if(i < 0) {
+                    break;
+                }
+                if(j > stones.get(i).size() - 1) {
+                    break;
+                }
+                if(stones.get(i).get(j) == inputStone) {
+                    edgeRow = i;
+                    edgeCol = j;
+                    break;
+                }
+                j++;
+            }
+            return new Edge(edgeRow, edgeCol);
+        }
+
+        @Override
+        protected Boolean isEnableSwap() {
+            int checkRow = inputRow - 1;
+            if(checkRow < 0) return true;
+            int checkCol = inputCol + 1;
+            if(checkCol >= stones.get(checkRow).size()) return true;
+            return stones.get(checkRow).get(checkCol) != this.inputStone;
+        }
+
+    }
+
+    private class SwapToRightLower extends SwapStones{
+        public SwapToRightLower(Stone inputStone, int inputRow, int inputCol) {
+            super(inputStone, inputRow, inputCol);
+        }
+
+        @Override
+        protected Boolean isEnableSwap() {
+            int checkRow = this.inputRow + 1;
+            if(checkRow >= stones.size()) {
+                return true;
+            }
+            int checkCol = this.inputCol + 1;
+            if(checkCol >= stones.get(checkRow).size()) {
+                return true;
+            }
+            return stones.get(checkRow).get(checkCol) != this.inputStone;
+        }
+
+        @Override
+        protected Edge getEdge() {
+            int j = inputCol;
+            int edgeRow = UNDEFINED_ROW_COL;
+            int edgeCol = UNDEFINED_ROW_COL;
+            for(int i = inputRow; i < stones.size(); i++) {
+                if(i >= stones.size()) {
+                    break;
+                }
+                if(j > stones.get(i).size() - 1) {
+                    break;
+                }
+                if(stones.get(i).get(j) == inputStone) {
+                    edgeRow = i;
+                    edgeCol = j;
+                    break;
+                }
+                j++;
+            }
+            return new Edge(edgeRow, edgeCol);
+        }
+
+        @Override
+        protected int swap(int edgeRow, int edgeCol) {
+            int k = inputCol;
+            for(int row = inputRow; row <= edgeRow; row++) {
+                if(row >= stones.size()) {
+                    break;
+                }
+                if(k >= stones.get(inputRow).size()) {
+                    break;
+                }
+                stones.get(row).set(k, inputStone);
+                k++;
+            }
+            return 1;
+        }
+
+    }
+
+    private class SwapToLeftUpper extends SwapStones{
+        public SwapToLeftUpper(Stone inputStone, int inputRow, int inputCol) {
+            super(inputStone, inputRow, inputCol);
+        }
+
+        @Override
+        protected Boolean isEnableSwap() {
+            int checkRow = this.inputRow - 1;
+            if(checkRow < 0) {
+                return true;
+            }
+            int checkCol = this.inputCol - 1;
+            if(checkCol < 0) {
+                return true;
+            }
+            return stones.get(checkRow).get(checkCol) != this.inputStone;
+        }
+
+        @Override
+        protected Edge getEdge() {
+            int j = inputCol;
+            int edgeRow = UNDEFINED_ROW_COL;
+            int edgeCol = UNDEFINED_ROW_COL;
+            for(int i = inputRow; i >= 0; i--) {
+                if(i < 0) {
+                    break;
+                }
+                if(j < 0) {
+                    break;
+                }
+                if(stones.get(i).get(j) == inputStone) {
+                    edgeRow = i;
+                    edgeCol = j;
+                    break;
+                }
+                j--;
+            }
+            return new Edge(edgeRow, edgeCol);
+        }
+
+        @Override
+        protected int swap(int edgeRow, int edgeCol) {
+            int k = inputCol;
+            for(int row = inputRow; row >= edgeRow; row--) {
+                if(row < 0) {
+                    break;
+                }
+                if(k < 0) {
+                    break;
+                }
+                stones.get(row).set(k, inputStone);
+                k--;
+            }
+            return 1;
+        }
+
+    }
+
+    private class SwapToLeftLower extends SwapStones{
+        public SwapToLeftLower(Stone inputStone, int inputRow, int inputCol) {
+            super(inputStone, inputRow, inputCol);
+        }
+
+        @Override
+        protected Boolean isEnableSwap() {
+            int checkRow = this.inputRow + 1;
+            if(checkRow >= stones.size()) {
+                return true;
+            }
+            int checkCol = this.inputCol - 1;
+            if(checkCol < 0) {
+                return true;
+            }
+            return stones.get(checkRow).get(checkCol) != this.inputStone;
+        }
+
+        @Override
+        protected Edge getEdge() {
+            int j = inputCol;
+            int edgeRow = UNDEFINED_ROW_COL;
+            int edgeCol = UNDEFINED_ROW_COL;
+            for(int i = inputRow; i < stones.get(i).size(); i++) {
+                if(i >= stones.size()) {
+                    break;
+                }
+                if(j < 0) {
+                    break;
+                }
+                if(stones.get(i).get(j) == inputStone) {
+                    edgeRow = i;
+                    edgeCol = j;
+                    break;
+                }
+                j--;
+            }
+            return new Edge(edgeRow, edgeCol);
+        }
+
+        @Override
+        protected int swap(int edgeRow, int edgeCol) {
+            int k = inputCol;
+            for(int row = inputRow; row <= edgeRow; row++) {
+                if(row >= stones.size()) {
+                    break;
+                }
+                if(k < 0) {
+                    break;
+                }
+                stones.get(row).set(k, inputStone);
+                k--;
+            }
+            return 1;
+        }
+
+    }
+
     public enum ColumnTitle{
         a(0),
         b(1),
@@ -53,272 +481,31 @@ public class Board {
         int inputCol = getInputCol(key);
         int swapCnt = 0;
 
-        swapCnt += swapUpper(player.getInputStone(), inputRow, inputCol); // 上方向にループして石を変える
-        swapCnt += swapLower(player.getInputStone(), inputRow, inputCol); // 下方向にループして石を変える
-        swapCnt += swapRight(player.getInputStone(), inputRow, inputCol); // 右方向にループして石を変える
-        swapCnt += swapLeft(player.getInputStone(), inputRow, inputCol); // 左方向にループして石を変える
-        swapCnt += swapRightUpper(player.getInputStone(), inputRow, inputCol); // 右上方向にループして石を変える
-        swapCnt += swapRightLower(player.getInputStone(), inputRow, inputCol); // 右下方向にループして石を変える
-        swapCnt += swapLeftUpper(player.getInputStone(), inputRow, inputCol); // 左上方向にループして石を変える
-        swapCnt += swapLeftLower(player.getInputStone(), inputRow, inputCol); // 左下方向にループして石を変える
+        // 上方向にループして石を変える
+        SwapToUpper swapToUpper = new SwapToUpper(player.getInputStone(), inputRow, inputCol);
+        swapCnt += swapToUpper.exec();
+        // 下方向にループして石を変える
+        SwapToLower swapToLower = new SwapToLower(player.getInputStone(), inputRow, inputCol);
+        swapCnt += swapToLower.exec();
+        // 右方向にループして石を変える
+        SwapToRight swapToRight = new SwapToRight(player.getInputStone(), inputRow, inputCol);
+        swapToRight.exec();
+        // 左方向にループして石を変える
+        SwapToLeft swapToLeft = new SwapToLeft(player.getInputStone(), inputRow, inputCol);
+        swapToLeft.exec();
+        // 右上方向にループして石を変える
+        SwapToRightUpper swapToRightUpper = new SwapToRightUpper(player.getInputStone(), inputRow, inputCol);
+        swapCnt += swapToRightUpper.exec();
+        // 右下方向にループして石を変える
+        SwapToRightLower swapToRightLower = new SwapToRightLower(player.getInputStone(), inputRow, inputCol);
+        swapCnt += swapToRightLower.exec();
+        // 左上方向にループして石を変える
+        SwapToLeftUpper swapToLeftUpper = new SwapToLeftUpper(player.getInputStone(), inputRow, inputCol);
+        swapCnt += swapToLeftUpper.exec();
+        // 左下方向にループして石を変える
+        SwapToLeftLower swapToLeftLower = new SwapToLeftLower(player.getInputStone(), inputRow, inputCol);
+        swapCnt += swapToLeftLower.exec();
         return (swapCnt > 0);
-    }
-
-    private int swapUpper(Stone inputStone, int inputRow, int inputCol) {
-        int edgeRow = UNDEFINED_ROW_COL;
-
-        for(int i = inputRow; i >= 0; i--) {
-            if(i < 0) {
-                break;
-            }
-            if(stones.get(i).get(inputCol) == inputStone) {
-                edgeRow = i;
-                break;
-            }
-        }
-
-        if(edgeRow == UNDEFINED_ROW_COL) {
-            return 0;
-        }
-
-        for(int i = inputRow; i >= edgeRow; i--) {
-            if(i < 0) {
-                break;
-            }
-            stones.get(i).set(inputCol, inputStone);
-        }
-
-        return 1;
-    }
-
-    private int swapLower(Stone inputStone, int inputRow, int inputCol) {
-        int edgeRow = UNDEFINED_ROW_COL;
-        for(int i = inputRow; i < stones.size(); i++) {
-            if(i >= stones.size()) {
-                break;
-            }
-            if(stones.get(i).get(inputCol) == inputStone) {
-                edgeRow = i;
-                break;
-            }
-        }
-
-        if(edgeRow == UNDEFINED_ROW_COL) {
-            return 0;
-        }
-
-        for(int i = inputRow; i <= edgeRow; i++) {
-            if(i >= stones.size()) {
-                break;
-            }
-            stones.get(i).set(inputCol, inputStone);
-        }
-
-        return 1;
-    }
-
-    private int swapRight(Stone inputStone, int inputRow, int inputCol) {
-        int edgeCol = UNDEFINED_ROW_COL;
-        for(int i = inputCol; i < stones.get(inputRow).size(); i++) {
-            if(i >= stones.get(inputRow).size()) {
-                break;
-            }
-            if(stones.get(inputRow).get(i) == inputStone) {
-                edgeCol = i;
-                break;
-            }
-        }
-
-        if(edgeCol == UNDEFINED_ROW_COL) {
-            return 0;
-        }
-
-        for(int i = inputCol; i <= edgeCol; i++) {
-            if(i >= stones.get(inputRow).size()) {
-                break;
-            }
-            stones.get(inputRow).set(i, inputStone);
-        }
-
-        return 1;
-    }
-
-    private int swapLeft(Stone inputStone, int inputRow, int inputCol) {
-        int edgeCol = UNDEFINED_ROW_COL;
-        for(int i = inputCol; i >= 0; i--) {
-            if(i < 0) {
-                break;
-            }
-            if(stones.get(inputRow).get(i) == inputStone) {
-                edgeCol = i;
-                break;
-            }
-        }
-
-        if(edgeCol == UNDEFINED_ROW_COL) {
-            return 0;
-        }
-
-        for(int i = inputCol; i >= edgeCol; i--) {
-            if(i < 0) {
-                break;
-            }
-            stones.get(inputRow).set(i, inputStone);
-        }
-
-        return 1;
-    }
-
-    private int swapRightUpper(Stone inputStone, int inputRow, int inputCol) {
-        int j = inputCol;
-        int edgeRow = UNDEFINED_ROW_COL;
-        int edgeCol = UNDEFINED_ROW_COL;
-        for(int i = inputRow; i >= 0; i--) {
-            if(i < 0) {
-                break;
-            }
-            if(j > stones.get(i).size() - 1) {
-                break;
-            }
-            if(stones.get(i).get(j) == inputStone) {
-                edgeRow = i;
-                edgeCol = j;
-                break;
-            }
-            j++;
-        }
-
-        if((edgeRow == UNDEFINED_ROW_COL) || (edgeCol == UNDEFINED_ROW_COL)) {
-            return 0;
-        }
-
-        int k = inputCol;
-        for(int row = inputRow; row >= edgeRow; row--) {
-            if(row < 0) {
-                break;
-            }
-            if(k >= stones.get(inputRow).size()) {
-                break;
-            }
-            stones.get(row).set(k, inputStone);
-            k++;
-        }
-
-        return 1;
-    }
-
-    private int swapRightLower(Stone inputStone, int inputRow, int inputCol) {
-        int j = inputCol;
-        int edgeRow = UNDEFINED_ROW_COL;
-        int edgeCol = UNDEFINED_ROW_COL;
-        for(int i = inputRow; i < stones.size(); i++) {
-            if(i >= stones.size()) {
-                break;
-            }
-            if(j > stones.get(i).size() - 1) {
-                break;
-            }
-            if(stones.get(i).get(j) == inputStone) {
-                edgeRow = i;
-                edgeCol = j;
-                break;
-            }
-            j++;
-        }
-
-        if((edgeRow == UNDEFINED_ROW_COL) || (edgeCol == UNDEFINED_ROW_COL)) {
-            return 0;
-        }
-
-        int k = inputCol;
-        for(int row = inputRow; row <= edgeRow; row++) {
-            if(row >= stones.size()) {
-                break;
-            }
-            if(k >= stones.get(inputRow).size()) {
-                break;
-            }
-            stones.get(row).set(k, inputStone);
-            k++;
-        }
-
-        return 1;
-    }
-
-    private int swapLeftUpper(Stone inputStone, int inputRow, int inputCol) {
-        int j = inputCol;
-        int edgeRow = UNDEFINED_ROW_COL;
-        int edgeCol = UNDEFINED_ROW_COL;
-        for(int i = inputRow; i >= 0; i--) {
-            if(i < 0) {
-                break;
-            }
-            if(j < 0) {
-                break;
-            }
-            if(stones.get(i).get(j) == inputStone) {
-                edgeRow = i;
-                edgeCol = j;
-                break;
-            }
-            j--;
-        }
-
-        if((edgeRow == UNDEFINED_ROW_COL) || (edgeCol == UNDEFINED_ROW_COL)) {
-            return 0;
-        }
-
-        int k = inputCol;
-        for(int row = inputRow; row >= edgeRow; row--) {
-            if(row < 0) {
-                break;
-            }
-            if(k < 0) {
-                break;
-            }
-            stones.get(row).set(k, inputStone);
-            k--;
-        }
-
-        return 1;
-    }
-
-    private int swapLeftLower(Stone inputStone, int inputRow, int inputCol) {
-        int j = inputCol;
-        int edgeRow = UNDEFINED_ROW_COL;
-        int edgeCol = UNDEFINED_ROW_COL;
-        for(int i = inputRow; i < stones.get(i).size(); i++) {
-            if(i >= stones.size()) {
-                break;
-            }
-            if(j < 0) {
-                break;
-            }
-            if(stones.get(i).get(j) == inputStone) {
-                edgeRow = i;
-                edgeCol = j;
-                break;
-            }
-            j--;
-        }
-
-        if((edgeRow == UNDEFINED_ROW_COL) || (edgeCol == UNDEFINED_ROW_COL)) {
-            return 0;
-        }
-
-        int k = inputCol;
-        for(int row = inputRow; row <= edgeRow; row++) {
-            if(row >= stones.size()) {
-                break;
-            }
-            if(k < 0) {
-                break;
-            }
-            stones.get(row).set(k, inputStone);
-            k--;
-        }
-
-        return 1;
     }
 
     private int getInputCol(String key) {
