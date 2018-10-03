@@ -40,7 +40,11 @@ public class Application {
                     continue;
                 }
                 Terminal.printInput(move);
-                board.input(player, move);
+                Boolean isSwapped = board.input(player, move);
+                if(!isSwapped) {
+                    Terminal.printInvalidAddress(move);
+                    continue;
+                }
                 player.change();
             }
         }

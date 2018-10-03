@@ -39,6 +39,10 @@ public class Terminal {
         System.out.printf("your input = %s. Please input [0-7][a-h] like '2d'.%n", move.getKey());
     }
 
+    public static void printInvalidAddress(Move move) {
+        System.out.printf("your input = %s. You can't change stones.%n", move.getKey());
+    }
+
     public static void bye() {
         System.out.println("Thanks for your playing. Bye!");
     }
