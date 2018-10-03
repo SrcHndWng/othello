@@ -237,32 +237,168 @@ public class BoardTests {
     }
 
     /**
-     * TODO: 置き換え対象なし
+     * 隣接して置き換え対象なし
      */
-//    @Test
-//    public void notExistSwapStones() {
-//        System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
-//
-//        player.setFirst();
-//        System.out.println("before");
-//        Terminal.view(board);
-//
-//        // TODO: 全方向置き換え対象がないケースを網羅
-//        // 右方向に隣接する石が入力したものと同じ
-//        Boolean result;
-//        result = board.input(player, "3c");
-//        assertFalse(result);
-//        // 左方向に隣接する石が入力したものと同じ
-//        result = board.input(player, "4f");
-//        assertFalse(result);
-//
-//        System.out.println("after");
-//        Terminal.view(board);
-//
-//        // 変更なし
-//        assertEquals(Stone.BLACK, board.getStones().get(3).get(3));
-//        assertEquals(Stone.WHITE, board.getStones().get(3).get(4));
-//        assertEquals(Stone.WHITE, board.getStones().get(4).get(3));
-//        assertEquals(Stone.BLACK, board.getStones().get(4).get(4));
-//    }
+    @Test
+    public void notExistNextSwapStones() {
+        System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
+
+        System.out.println("right, left, upper, lower");
+        player.setFirst();
+        Terminal.view(board);
+        assertFalse(board.input(player, "3c")); // 右方向に隣接する石が入力したものと同じ
+        assertFalse( board.input(player, "4f")); // 左方向に隣接する石が入力したものと同じ
+        assertFalse( board.input(player, "5e")); // 上方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, "2d")); // 下方向に隣接する石が入力したものと同じ
+        System.out.println("after");
+        Terminal.view(board);
+
+        System.out.println("right-upper, right-lower, left-upper, left-lower");
+        board.getStones().get(3).set(4, Stone.BLACK);
+        board.getStones().get(4).set(3, Stone.BLACK);
+        Terminal.view(board);
+        assertFalse(board.input(player, "5c")); // 右上方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, "2c")); // 右下方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, "5f")); // 左上方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, "2f")); // 左下方向に隣接する石が入力したものと同じ
+        System.out.println("after");
+        Terminal.view(board);
+    }
+
+    /**
+     * 端に同じ石が存在しない
+     */
+    @Test
+    public void notExistEdgeStones() {
+        System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
+
+        player.setFirst();
+        board.getStones().get(3).set(3, Stone.WHITE);
+        board.getStones().get(4).set(4, Stone.WHITE);
+
+        // 右方向に端が存在しない
+        System.out.println("upper");
+        Terminal.view(board);
+        assertFalse(board.input(player, "3c"));
+        System.out.println("after");
+        Terminal.view(board);
+        // 左方向に端が存在しない
+        System.out.println("upper");
+        Terminal.view(board);
+        assertFalse(board.input(player, "3f"));
+        System.out.println("after");
+        Terminal.view(board);
+        // 上方向に端が存在しない
+        System.out.println("upper");
+        Terminal.view(board);
+        assertFalse(board.input(player, "5d"));
+        System.out.println("after");
+        Terminal.view(board);
+        // 下方向に端が存在しない
+        assertFalse(board.input(player, "2d"));
+        System.out.println("after");
+        Terminal.view(board);
+        // 右上方向に端が存在しない
+        System.out.println("upper");
+        Terminal.view(board);
+        assertFalse(board.input(player, "5c"));
+        System.out.println("after");
+        Terminal.view(board);
+        // 右下方向に端が存在しない
+        System.out.println("upper");
+        Terminal.view(board);
+        assertFalse(board.input(player, "2f"));
+        System.out.println("after");
+        Terminal.view(board);
+        // 左上方向に端が存在しない
+        System.out.println("upper");
+        Terminal.view(board);
+        assertFalse(board.input(player, "5f"));
+        System.out.println("after");
+        Terminal.view(board);
+        // 左下方向に端が存在しない
+        System.out.println("upper");
+        Terminal.view(board);
+        assertFalse(board.input(player, "2d"));
+        System.out.println("after");
+        Terminal.view(board);
+
+        System.out.println("after");
+        Terminal.view(board);
+    }
+
+    /**
+     * 隅に入力した状態
+     */
+    @Test
+    public void inputCorner() {
+        System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
+        player.setFirst();
+        Boolean result = false;
+
+        class Stones {
+            public void init() {
+                for(int i = 1; i < 7; i++) {
+                    for(int j = 0; j < 8; j++) {
+                        board.getStones().get(i).set(j, Stone.WHITE);
+                    }
+                }
+                for(int j = 1; j < 7; j++) {
+                    board.getStones().get(0).set(j, Stone.WHITE);
+                    board.getStones().get(7).set(j, Stone.WHITE);
+                }
+            }
+        }
+
+        // 右上に入力
+        System.out.println("input right upper");
+        new Stones().init();
+        board.getStones().get(0).set(0, Stone.BLACK);
+        board.getStones().get(7).set(0, Stone.BLACK);
+        board.getStones().get(7).set(7, Stone.BLACK);
+        Terminal.view(board);
+        result = board.input(player, "0h");
+        System.out.println("after");
+        Terminal.view(board);
+        assertTrue(result);
+
+        // 左上に入力
+        System.out.println("input left upper");
+        new Stones().init();
+        board.getStones().get(0).set(0, Stone.NONE);
+        board.getStones().get(0).set(7, Stone.BLACK);
+        board.getStones().get(7).set(0, Stone.BLACK);
+        board.getStones().get(7).set(7, Stone.BLACK);
+        Terminal.view(board);
+        result = board.input(player, "0a");
+        System.out.println("after");
+        Terminal.view(board);
+        assertTrue(result);
+
+        // 右下に入力
+        System.out.println("input right upper");
+        new Stones().init();
+        board.getStones().get(0).set(0, Stone.BLACK);
+        board.getStones().get(0).set(7, Stone.BLACK);
+        board.getStones().get(7).set(0, Stone.BLACK);
+        board.getStones().get(7).set(7, Stone.NONE);
+        Terminal.view(board);
+        result = board.input(player, "7h");
+        System.out.println("after");
+        Terminal.view(board);
+        assertTrue(result);
+
+        // 左下に入力
+        System.out.println("input left lower");
+        new Stones().init();
+        board.getStones().get(0).set(0, Stone.BLACK);
+        board.getStones().get(0).set(7, Stone.BLACK);
+        board.getStones().get(7).set(0, Stone.NONE);
+        board.getStones().get(7).set(7, Stone.BLACK);
+        Terminal.view(board);
+        result = board.input(player, "7a");
+        System.out.println("after");
+        Terminal.view(board);
+        assertTrue(result);
+    }
 }

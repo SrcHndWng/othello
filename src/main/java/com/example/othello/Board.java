@@ -1,7 +1,6 @@
 package com.example.othello;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Board {
     private ArrayList<ArrayList<Stone>> stones;
@@ -63,7 +62,7 @@ public class Board {
         @Override
         protected Edge getEdge() {
             int edgeRow = UNDEFINED_ROW_COL;
-            for(int i = inputRow; i >= 0; i--) {
+            for(int i = inputRow - 1; i >= 0; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -91,7 +90,7 @@ public class Board {
         @Override
         protected int swap(int edgeRow, int edgeCol) {
             for(int i = inputRow; i <= edgeRow; i++) {
-                if(i >= stones.size()) {
+                if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
                 stones.get(i).set(inputCol, inputStone);
@@ -102,8 +101,8 @@ public class Board {
         @Override
         protected Edge getEdge() {
             int edgeRow = UNDEFINED_ROW_COL;
-            for(int i = inputRow; i < stones.size(); i++) {
-                if(i >= stones.size()) {
+            for(int i = inputRow + 1; i < Const.MAX_ROW_COL_NUM; i++) {
+                if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
                 if(stones.get(i).get(inputCol) == inputStone) {
@@ -117,7 +116,7 @@ public class Board {
         @Override
         protected Boolean isEnableSwap() {
             int checkRow = this.inputRow + 1;
-            if(checkRow >= stones.size()) {
+            if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
             return stones.get(checkRow).get(this.inputCol) != this.inputStone;
@@ -133,15 +132,15 @@ public class Board {
         @Override
         protected Boolean isEnableSwap() {
             int checkCol = this.inputCol + 1;
-            if(checkCol >= stones.get(this.inputRow).size()) return true;
+            if(checkCol >= Const.MAX_ROW_COL_NUM) return true;
             return stones.get(this.inputRow).get(checkCol) != this.inputStone;
         }
 
         @Override
         protected Edge getEdge() {
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputCol; i < stones.get(inputRow).size(); i++) {
-                if(i >= stones.get(inputRow).size()) {
+            for(int i = inputCol + 1; i < Const.MAX_ROW_COL_NUM; i++) {
+                if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
                 if(stones.get(inputRow).get(i) == inputStone) {
@@ -155,7 +154,7 @@ public class Board {
         @Override
         protected int swap(int edgeRow, int edgeCol) {
             for(int i = inputCol; i <= edgeCol; i++) {
-                if(i >= stones.get(inputRow).size()) {
+                if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
                 stones.get(inputRow).set(i, inputStone);
@@ -182,7 +181,7 @@ public class Board {
         @Override
         protected Edge getEdge() {
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputCol; i >= 0; i--) {
+            for(int i = inputCol - 1; i >= 0; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -219,7 +218,7 @@ public class Board {
                 if(row < 0) {
                     break;
                 }
-                if(k >= stones.get(inputRow).size()) {
+                if(k >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
                 stones.get(row).set(k, inputStone);
@@ -230,14 +229,14 @@ public class Board {
 
         @Override
         protected Edge getEdge() {
-            int j = inputCol;
+            int j = inputCol + 1;
             int edgeRow = UNDEFINED_ROW_COL;
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputRow; i >= 0; i--) {
+            for(int i = inputRow - 1; i >= 0; i--) {
                 if(i < 0) {
                     break;
                 }
-                if(j > stones.get(i).size() - 1) {
+                if(j > Const.MAX_ROW_COL_NUM - 1) {
                     break;
                 }
                 if(stones.get(i).get(j) == inputStone) {
@@ -255,7 +254,7 @@ public class Board {
             int checkRow = inputRow - 1;
             if(checkRow < 0) return true;
             int checkCol = inputCol + 1;
-            if(checkCol >= stones.get(checkRow).size()) return true;
+            if(checkCol >= Const.MAX_ROW_COL_NUM) return true;
             return stones.get(checkRow).get(checkCol) != this.inputStone;
         }
 
@@ -269,11 +268,11 @@ public class Board {
         @Override
         protected Boolean isEnableSwap() {
             int checkRow = this.inputRow + 1;
-            if(checkRow >= stones.size()) {
+            if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
             int checkCol = this.inputCol + 1;
-            if(checkCol >= stones.get(checkRow).size()) {
+            if(checkCol >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
             return stones.get(checkRow).get(checkCol) != this.inputStone;
@@ -281,14 +280,14 @@ public class Board {
 
         @Override
         protected Edge getEdge() {
-            int j = inputCol;
+            int j = inputCol + 1;
             int edgeRow = UNDEFINED_ROW_COL;
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputRow; i < stones.size(); i++) {
-                if(i >= stones.size()) {
+            for(int i = inputRow + 1; i < Const.MAX_ROW_COL_NUM; i++) {
+                if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
-                if(j > stones.get(i).size() - 1) {
+                if(j > Const.MAX_ROW_COL_NUM - 1) {
                     break;
                 }
                 if(stones.get(i).get(j) == inputStone) {
@@ -305,10 +304,10 @@ public class Board {
         protected int swap(int edgeRow, int edgeCol) {
             int k = inputCol;
             for(int row = inputRow; row <= edgeRow; row++) {
-                if(row >= stones.size()) {
+                if(row >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
-                if(k >= stones.get(inputRow).size()) {
+                if(k >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
                 stones.get(row).set(k, inputStone);
@@ -339,10 +338,10 @@ public class Board {
 
         @Override
         protected Edge getEdge() {
-            int j = inputCol;
+            int j = inputCol - 1;
             int edgeRow = UNDEFINED_ROW_COL;
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputRow; i >= 0; i--) {
+            for(int i = inputRow - 1; i >= 0; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -385,7 +384,7 @@ public class Board {
         @Override
         protected Boolean isEnableSwap() {
             int checkRow = this.inputRow + 1;
-            if(checkRow >= stones.size()) {
+            if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
             int checkCol = this.inputCol - 1;
@@ -397,11 +396,11 @@ public class Board {
 
         @Override
         protected Edge getEdge() {
-            int j = inputCol;
+            int j = inputCol - 1;
             int edgeRow = UNDEFINED_ROW_COL;
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputRow; i < stones.get(i).size(); i++) {
-                if(i >= stones.size()) {
+            for(int i = inputRow + 1; i < Const.MAX_ROW_COL_NUM; i++) {
+                if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
                 if(j < 0) {
@@ -421,7 +420,7 @@ public class Board {
         protected int swap(int edgeRow, int edgeCol) {
             int k = inputCol;
             for(int row = inputRow; row <= edgeRow; row++) {
-                if(row >= stones.size()) {
+                if(row >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
                 if(k < 0) {
@@ -482,18 +481,15 @@ public class Board {
         int inputCol = getInputCol(key);
         int swapCnt = 0;
 
-        List<SwapStones> listSwapStones = new ArrayList<SwapStones>();
-        listSwapStones.add(new SwapToUpper(player.getInputStone(), inputRow, inputCol)); // 上方向にループして石を変える
-        listSwapStones.add(new SwapToLower(player.getInputStone(), inputRow, inputCol)); // 下方向にループして石を変える
-        listSwapStones.add(new SwapToRight(player.getInputStone(), inputRow, inputCol)); // 右方向にループして石を変える
-        listSwapStones.add(new SwapToLeft(player.getInputStone(), inputRow, inputCol)); // 左方向にループして石を変える
-        listSwapStones.add(new SwapToRightUpper(player.getInputStone(), inputRow, inputCol)); // 右上方向にループして石を変える
-        listSwapStones.add(new SwapToRightLower(player.getInputStone(), inputRow, inputCol)); // 右下方向にループして石を変える
-        listSwapStones.add(new SwapToLeftUpper(player.getInputStone(), inputRow, inputCol)); // 左上方向にループして石を変える
-        listSwapStones.add(new SwapToLeftLower(player.getInputStone(), inputRow, inputCol)); // 左下方向にループして石を変える
-        for(SwapStones s : listSwapStones) {
-             swapCnt += s.exec();
-        }
+        swapCnt += new SwapToUpper(player.getInputStone(), inputRow, inputCol).exec(); // 上方向にループして石を変える
+        swapCnt += new SwapToLower(player.getInputStone(), inputRow, inputCol).exec(); // 下方向にループして石を変える
+        swapCnt += new SwapToRight(player.getInputStone(), inputRow, inputCol).exec(); // 右方向にループして石を変える
+        swapCnt += new SwapToLeft(player.getInputStone(), inputRow, inputCol).exec(); // 左方向にループして石を変える
+        swapCnt += new SwapToRightUpper(player.getInputStone(), inputRow, inputCol).exec(); // 右上方向にループして石を変える
+        swapCnt += new SwapToRightLower(player.getInputStone(), inputRow, inputCol).exec(); // 右下方向にループして石を変える
+        swapCnt += new SwapToLeftUpper(player.getInputStone(), inputRow, inputCol).exec(); // 左上方向にループして石を変える
+        swapCnt += new SwapToLeftLower(player.getInputStone(), inputRow, inputCol).exec(); // 左下方向にループして石を変える
+
         return (swapCnt > 0);
     }
 
