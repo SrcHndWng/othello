@@ -235,4 +235,34 @@ public class BoardTests {
         assertEquals(Stone.WHITE, board.getStones().get(3).get(3));
         assertEquals(Stone.BLACK, board.getStones().get(4).get(4));
     }
+
+    /**
+     * TODO: 置き換え対象なし
+     */
+//    @Test
+//    public void notExistSwapStones() {
+//        System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
+//
+//        player.setFirst();
+//        System.out.println("before");
+//        Terminal.view(board);
+//
+//        // TODO: 全方向置き換え対象がないケースを網羅
+//        // 右方向に隣接する石が入力したものと同じ
+//        Boolean result;
+//        result = board.input(player, "3c");
+//        assertFalse(result);
+//        // 左方向に隣接する石が入力したものと同じ
+//        result = board.input(player, "4f");
+//        assertFalse(result);
+//
+//        System.out.println("after");
+//        Terminal.view(board);
+//
+//        // 変更なし
+//        assertEquals(Stone.BLACK, board.getStones().get(3).get(3));
+//        assertEquals(Stone.WHITE, board.getStones().get(3).get(4));
+//        assertEquals(Stone.WHITE, board.getStones().get(4).get(3));
+//        assertEquals(Stone.BLACK, board.getStones().get(4).get(4));
+//    }
 }

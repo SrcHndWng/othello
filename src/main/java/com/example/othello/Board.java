@@ -66,7 +66,11 @@ public class Board {
 
     private int swapUpper(Stone inputStone, int inputRow, int inputCol) {
         int edgeRow = UNDEFINED_ROW_COL;
+
         for(int i = inputRow; i >= 0; i--) {
+            if(i < 0) {
+                break;
+            }
             if(stones.get(i).get(inputCol) == inputStone) {
                 edgeRow = i;
                 break;
@@ -78,6 +82,9 @@ public class Board {
         }
 
         for(int i = inputRow; i >= edgeRow; i--) {
+            if(i < 0) {
+                break;
+            }
             stones.get(i).set(inputCol, inputStone);
         }
 
@@ -87,6 +94,9 @@ public class Board {
     private int swapLower(Stone inputStone, int inputRow, int inputCol) {
         int edgeRow = UNDEFINED_ROW_COL;
         for(int i = inputRow; i < stones.size(); i++) {
+            if(i >= stones.size()) {
+                break;
+            }
             if(stones.get(i).get(inputCol) == inputStone) {
                 edgeRow = i;
                 break;
@@ -98,6 +108,9 @@ public class Board {
         }
 
         for(int i = inputRow; i <= edgeRow; i++) {
+            if(i >= stones.size()) {
+                break;
+            }
             stones.get(i).set(inputCol, inputStone);
         }
 
@@ -107,6 +120,9 @@ public class Board {
     private int swapRight(Stone inputStone, int inputRow, int inputCol) {
         int edgeCol = UNDEFINED_ROW_COL;
         for(int i = inputCol; i < stones.get(inputRow).size(); i++) {
+            if(i >= stones.get(inputRow).size()) {
+                break;
+            }
             if(stones.get(inputRow).get(i) == inputStone) {
                 edgeCol = i;
                 break;
@@ -118,6 +134,9 @@ public class Board {
         }
 
         for(int i = inputCol; i <= edgeCol; i++) {
+            if(i >= stones.get(inputRow).size()) {
+                break;
+            }
             stones.get(inputRow).set(i, inputStone);
         }
 
@@ -127,6 +146,9 @@ public class Board {
     private int swapLeft(Stone inputStone, int inputRow, int inputCol) {
         int edgeCol = UNDEFINED_ROW_COL;
         for(int i = inputCol; i >= 0; i--) {
+            if(i < 0) {
+                break;
+            }
             if(stones.get(inputRow).get(i) == inputStone) {
                 edgeCol = i;
                 break;
@@ -138,6 +160,9 @@ public class Board {
         }
 
         for(int i = inputCol; i >= edgeCol; i--) {
+            if(i < 0) {
+                break;
+            }
             stones.get(inputRow).set(i, inputStone);
         }
 
@@ -149,6 +174,9 @@ public class Board {
         int edgeRow = UNDEFINED_ROW_COL;
         int edgeCol = UNDEFINED_ROW_COL;
         for(int i = inputRow; i >= 0; i--) {
+            if(i < 0) {
+                break;
+            }
             if(j > stones.get(i).size() - 1) {
                 break;
             }
@@ -166,6 +194,12 @@ public class Board {
 
         int k = inputCol;
         for(int row = inputRow; row >= edgeRow; row--) {
+            if(row < 0) {
+                break;
+            }
+            if(k >= stones.get(inputRow).size()) {
+                break;
+            }
             stones.get(row).set(k, inputStone);
             k++;
         }
@@ -178,6 +212,9 @@ public class Board {
         int edgeRow = UNDEFINED_ROW_COL;
         int edgeCol = UNDEFINED_ROW_COL;
         for(int i = inputRow; i < stones.size(); i++) {
+            if(i >= stones.size()) {
+                break;
+            }
             if(j > stones.get(i).size() - 1) {
                 break;
             }
@@ -195,6 +232,12 @@ public class Board {
 
         int k = inputCol;
         for(int row = inputRow; row <= edgeRow; row++) {
+            if(row >= stones.size()) {
+                break;
+            }
+            if(k >= stones.get(inputRow).size()) {
+                break;
+            }
             stones.get(row).set(k, inputStone);
             k++;
         }
@@ -207,6 +250,9 @@ public class Board {
         int edgeRow = UNDEFINED_ROW_COL;
         int edgeCol = UNDEFINED_ROW_COL;
         for(int i = inputRow; i >= 0; i--) {
+            if(i < 0) {
+                break;
+            }
             if(j < 0) {
                 break;
             }
@@ -224,6 +270,12 @@ public class Board {
 
         int k = inputCol;
         for(int row = inputRow; row >= edgeRow; row--) {
+            if(row < 0) {
+                break;
+            }
+            if(k < 0) {
+                break;
+            }
             stones.get(row).set(k, inputStone);
             k--;
         }
@@ -236,6 +288,9 @@ public class Board {
         int edgeRow = UNDEFINED_ROW_COL;
         int edgeCol = UNDEFINED_ROW_COL;
         for(int i = inputRow; i < stones.get(i).size(); i++) {
+            if(i >= stones.size()) {
+                break;
+            }
             if(j < 0) {
                 break;
             }
@@ -253,6 +308,12 @@ public class Board {
 
         int k = inputCol;
         for(int row = inputRow; row <= edgeRow; row++) {
+            if(row >= stones.size()) {
+                break;
+            }
+            if(k < 0) {
+                break;
+            }
             stones.get(row).set(k, inputStone);
             k--;
         }
