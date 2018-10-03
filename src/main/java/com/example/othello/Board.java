@@ -434,23 +434,6 @@ public class Board {
 
     }
 
-//    public enum ColumnTitle{
-//        a(0),
-//        b(1),
-//        c(2),
-//        d(3),
-//        e(4),
-//        f(5),
-//        g(6),
-//        h(7);
-//
-//        private final int id;
-//
-//        private ColumnTitle(final int id) {
-//            this.id = id;
-//        }
-//    };
-
     private Board() {
         stones = new ArrayList<ArrayList<Stone>>();
         for(int i = 0; i < Const.MAX_ROW_COL_NUM; i++) {
