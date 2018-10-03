@@ -21,13 +21,13 @@ public class Application {
 
     private void run() throws Exception {
         Board board = new Board();
-        Terminal.view(board);
 
         Player player = new Player();
         player.setFirst();
 
         try(Scanner scanner = new Scanner(System.in)){
             while(true) {
+                Terminal.view(board);
                 Terminal.requestInput(player.getName());
 
                 String key = scanner.nextLine();
@@ -35,7 +35,8 @@ public class Application {
                     break;
                 }
 
-                System.out.println("input = " + key);
+                System.out.println("your input = " + key);
+                board.input(player, key);
                 player.change();
             }
         }

@@ -31,11 +31,12 @@ public class BoardTests {
         System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
         setFirstBoard();
 
-        board.input(player, "5d");
+        Boolean result = board.input(player, "5d");
         System.out.println("after");
         Terminal.view(board);
 
         // 上方向に置き換え
+        assertTrue(result);
         assertEquals(Stone.BLACK, board.getStones().get(5).get(3));
         assertEquals(Stone.BLACK, board.getStones().get(4).get(3));
         assertEquals(Stone.BLACK, board.getStones().get(3).get(3));
@@ -52,11 +53,12 @@ public class BoardTests {
         System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
         setFirstBoard();
 
-        board.input(player, "2e");
+        Boolean result = board.input(player, "2e");
         System.out.println("after");
         Terminal.view(board);
 
         // 下方向に置き換え
+        assertTrue(result);
         assertEquals(Stone.BLACK, board.getStones().get(2).get(4));
         assertEquals(Stone.BLACK, board.getStones().get(3).get(4));
         assertEquals(Stone.BLACK, board.getStones().get(4).get(4));
@@ -73,11 +75,12 @@ public class BoardTests {
         System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
         setFirstBoard();
 
-        board.input(player, "4c");
+        Boolean result = board.input(player, "4c");
         System.out.println("after");
         Terminal.view(board);
 
         // 右方向に置き換え
+        assertTrue(result);
         assertEquals(Stone.BLACK, board.getStones().get(4).get(2));
         assertEquals(Stone.BLACK, board.getStones().get(4).get(3));
         assertEquals(Stone.BLACK, board.getStones().get(4).get(4));
@@ -94,11 +97,12 @@ public class BoardTests {
         System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
         setFirstBoard();
 
-        board.input(player, "3f");
+        Boolean result = board.input(player, "3f");
         System.out.println("after");
         Terminal.view(board);
 
         // 左方向に置き換え
+        assertTrue(result);
         assertEquals(Stone.BLACK, board.getStones().get(3).get(3));
         assertEquals(Stone.BLACK, board.getStones().get(3).get(4));
         assertEquals(Stone.BLACK, board.getStones().get(3).get(5));
@@ -125,11 +129,12 @@ public class BoardTests {
         System.out.println("before");
         Terminal.view(board);
 
-        board.input(player, "6b");
+        Boolean result = board.input(player, "6b");
         System.out.println("after");
         Terminal.view(board);
 
         // 右上方向に置き換え
+        assertTrue(result);
         assertEquals(Stone.BLACK, board.getStones().get(6).get(1));
         assertEquals(Stone.BLACK, board.getStones().get(5).get(2));
         assertEquals(Stone.BLACK, board.getStones().get(4).get(3));
@@ -157,11 +162,12 @@ public class BoardTests {
         System.out.println("before");
         Terminal.view(board);
 
-        board.input(player, "2c");
+        Boolean result = board.input(player, "2c");
         System.out.println("after");
         Terminal.view(board);
 
         // 右下方向に置き換え
+        assertTrue(result);
         assertEquals(Stone.BLACK, board.getStones().get(2).get(2));
         assertEquals(Stone.BLACK, board.getStones().get(3).get(3));
         assertEquals(Stone.BLACK, board.getStones().get(4).get(4));
@@ -187,11 +193,12 @@ public class BoardTests {
         System.out.println("before");
         Terminal.view(board);
 
-        board.input(player, "5f");
+        Boolean result = board.input(player, "5f");
         System.out.println("after");
         Terminal.view(board);
 
         // 左上方向に置き換え
+        assertTrue(result);
         assertEquals(Stone.BLACK, board.getStones().get(5).get(5));
         assertEquals(Stone.BLACK, board.getStones().get(4).get(4));
         assertEquals(Stone.BLACK, board.getStones().get(3).get(3));
@@ -214,11 +221,12 @@ public class BoardTests {
         System.out.println("before");
         Terminal.view(board);
 
-        board.input(player, "2f");
+        Boolean result = board.input(player, "2f");
         System.out.println("after");
         Terminal.view(board);
 
         // 左下方向に置き換え
+        assertTrue(result);
         assertEquals(Stone.BLACK, board.getStones().get(2).get(5));
         assertEquals(Stone.BLACK, board.getStones().get(3).get(4));
         assertEquals(Stone.BLACK, board.getStones().get(4).get(3));

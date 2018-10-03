@@ -48,22 +48,23 @@ public class Board {
         return stones;
     }
 
-    public void input(Player player, String key) {
+    public Boolean input(Player player, String key) {
         int inputRow = Integer.parseInt(key.substring(0, 1));
         int inputCol = getInputCol(key);
+        int swapCnt = 0;
 
-        swapUpper(player.getInputStone(), inputRow, inputCol); // 上方向にループして石を変える
-        swapLower(player.getInputStone(), inputRow, inputCol); // 下方向にループして石を変える
-        swapRight(player.getInputStone(), inputRow, inputCol); // 右方向にループして石を変える
-        swapLeft(player.getInputStone(), inputRow, inputCol); // 左方向にループして石を変える
-        swapRightUpper(player.getInputStone(), inputRow, inputCol); // 右上方向にループして石を変える
-        swapRightLower(player.getInputStone(), inputRow, inputCol); // 右下方向にループして石を変える
-        swapLeftUpper(player.getInputStone(), inputRow, inputCol); // 左上方向にループして石を変える
-        swapLeftLower(player.getInputStone(), inputRow, inputCol); // 左下方向にループして石を変える
-        // TODO: いづれもヒットしなければエラー
+        swapCnt += swapUpper(player.getInputStone(), inputRow, inputCol); // 上方向にループして石を変える
+        swapCnt += swapLower(player.getInputStone(), inputRow, inputCol); // 下方向にループして石を変える
+        swapCnt += swapRight(player.getInputStone(), inputRow, inputCol); // 右方向にループして石を変える
+        swapCnt += swapLeft(player.getInputStone(), inputRow, inputCol); // 左方向にループして石を変える
+        swapCnt += swapRightUpper(player.getInputStone(), inputRow, inputCol); // 右上方向にループして石を変える
+        swapCnt += swapRightLower(player.getInputStone(), inputRow, inputCol); // 右下方向にループして石を変える
+        swapCnt += swapLeftUpper(player.getInputStone(), inputRow, inputCol); // 左上方向にループして石を変える
+        swapCnt += swapLeftLower(player.getInputStone(), inputRow, inputCol); // 左下方向にループして石を変える
+        return (swapCnt > 0);
     }
 
-    private void swapUpper(Stone inputStone, int inputRow, int inputCol) {
+    private int swapUpper(Stone inputStone, int inputRow, int inputCol) {
         int edgeRow = UNDEFINED_ROW_COL;
         for(int i = inputRow; i >= 0; i--) {
             if(stones.get(i).get(inputCol) == inputStone) {
@@ -73,15 +74,17 @@ public class Board {
         }
 
         if(edgeRow == UNDEFINED_ROW_COL) {
-            return;
+            return 0;
         }
 
         for(int i = inputRow; i >= edgeRow; i--) {
             stones.get(i).set(inputCol, inputStone);
         }
+
+        return 1;
     }
 
-    private void swapLower(Stone inputStone, int inputRow, int inputCol) {
+    private int swapLower(Stone inputStone, int inputRow, int inputCol) {
         int edgeRow = UNDEFINED_ROW_COL;
         for(int i = inputRow; i < stones.size(); i++) {
             if(stones.get(i).get(inputCol) == inputStone) {
@@ -91,15 +94,17 @@ public class Board {
         }
 
         if(edgeRow == UNDEFINED_ROW_COL) {
-            return;
+            return 0;
         }
 
         for(int i = inputRow; i <= edgeRow; i++) {
             stones.get(i).set(inputCol, inputStone);
         }
+
+        return 1;
     }
 
-    private void swapRight(Stone inputStone, int inputRow, int inputCol) {
+    private int swapRight(Stone inputStone, int inputRow, int inputCol) {
         int edgeCol = UNDEFINED_ROW_COL;
         for(int i = inputCol; i < stones.get(inputRow).size(); i++) {
             if(stones.get(inputRow).get(i) == inputStone) {
@@ -109,15 +114,17 @@ public class Board {
         }
 
         if(edgeCol == UNDEFINED_ROW_COL) {
-            return;
+            return 0;
         }
 
         for(int i = inputCol; i <= edgeCol; i++) {
             stones.get(inputRow).set(i, inputStone);
         }
+
+        return 1;
     }
 
-    private void swapLeft(Stone inputStone, int inputRow, int inputCol) {
+    private int swapLeft(Stone inputStone, int inputRow, int inputCol) {
         int edgeCol = UNDEFINED_ROW_COL;
         for(int i = inputCol; i >= 0; i--) {
             if(stones.get(inputRow).get(i) == inputStone) {
@@ -127,15 +134,17 @@ public class Board {
         }
 
         if(edgeCol == UNDEFINED_ROW_COL) {
-            return;
+            return 0;
         }
 
         for(int i = inputCol; i >= edgeCol; i--) {
             stones.get(inputRow).set(i, inputStone);
         }
+
+        return 1;
     }
 
-    private void swapRightUpper(Stone inputStone, int inputRow, int inputCol) {
+    private int swapRightUpper(Stone inputStone, int inputRow, int inputCol) {
         int j = inputCol;
         int edgeRow = UNDEFINED_ROW_COL;
         int edgeCol = UNDEFINED_ROW_COL;
@@ -152,7 +161,7 @@ public class Board {
         }
 
         if((edgeRow == UNDEFINED_ROW_COL) || (edgeCol == UNDEFINED_ROW_COL)) {
-            return;
+            return 0;
         }
 
         int k = inputCol;
@@ -160,9 +169,11 @@ public class Board {
             stones.get(row).set(k, inputStone);
             k++;
         }
+
+        return 1;
     }
 
-    private void swapRightLower(Stone inputStone, int inputRow, int inputCol) {
+    private int swapRightLower(Stone inputStone, int inputRow, int inputCol) {
         int j = inputCol;
         int edgeRow = UNDEFINED_ROW_COL;
         int edgeCol = UNDEFINED_ROW_COL;
@@ -179,7 +190,7 @@ public class Board {
         }
 
         if((edgeRow == UNDEFINED_ROW_COL) || (edgeCol == UNDEFINED_ROW_COL)) {
-            return;
+            return 0;
         }
 
         int k = inputCol;
@@ -187,9 +198,11 @@ public class Board {
             stones.get(row).set(k, inputStone);
             k++;
         }
+
+        return 1;
     }
 
-    private void swapLeftUpper(Stone inputStone, int inputRow, int inputCol) {
+    private int swapLeftUpper(Stone inputStone, int inputRow, int inputCol) {
         int j = inputCol;
         int edgeRow = UNDEFINED_ROW_COL;
         int edgeCol = UNDEFINED_ROW_COL;
@@ -206,7 +219,7 @@ public class Board {
         }
 
         if((edgeRow == UNDEFINED_ROW_COL) || (edgeCol == UNDEFINED_ROW_COL)) {
-            return;
+            return 0;
         }
 
         int k = inputCol;
@@ -214,9 +227,11 @@ public class Board {
             stones.get(row).set(k, inputStone);
             k--;
         }
+
+        return 1;
     }
 
-    private void swapLeftLower(Stone inputStone, int inputRow, int inputCol) {
+    private int swapLeftLower(Stone inputStone, int inputRow, int inputCol) {
         int j = inputCol;
         int edgeRow = UNDEFINED_ROW_COL;
         int edgeCol = UNDEFINED_ROW_COL;
@@ -233,7 +248,7 @@ public class Board {
         }
 
         if((edgeRow == UNDEFINED_ROW_COL) || (edgeCol == UNDEFINED_ROW_COL)) {
-            return;
+            return 0;
         }
 
         int k = inputCol;
@@ -241,6 +256,8 @@ public class Board {
             stones.get(row).set(k, inputStone);
             k--;
         }
+
+        return 1;
     }
 
     private int getInputCol(String key) {
