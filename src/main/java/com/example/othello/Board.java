@@ -26,7 +26,7 @@ public class Board {
             this.inputCol = inputCol;
         }
         public int exec(){
-            if(!isEnableSwap()) {
+            if(!isNextEnableSwap()) {
                 return 0;
             }
             Edge edge = getEdge();
@@ -35,7 +35,7 @@ public class Board {
             }
             return swap(edge.row, edge.col);
         }
-        abstract protected Boolean isEnableSwap();
+        abstract protected Boolean isNextEnableSwap();
         abstract protected Edge getEdge();
         abstract protected int swap(int edgeRow, int edgeCol);
         protected Boolean isExistEdge(int edgeRow, int edgeCol) {
@@ -50,7 +50,7 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            for(int i = inputRow; i >= edgeRow; i--) {
+            for(int i = inputRow - 1; i >= edgeRow; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -75,7 +75,7 @@ public class Board {
         }
 
         @Override
-        protected Boolean isEnableSwap() {
+        protected Boolean isNextEnableSwap() {
             int checkRow = this.inputRow - 1;
             if(checkRow < 0) return false;
             return stones.get(checkRow).get(this.inputCol) != this.inputStone;
@@ -89,7 +89,7 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            for(int i = inputRow; i <= edgeRow; i++) {
+            for(int i = inputRow + 1; i <= edgeRow; i++) {
                 if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -114,7 +114,7 @@ public class Board {
         }
 
         @Override
-        protected Boolean isEnableSwap() {
+        protected Boolean isNextEnableSwap() {
             int checkRow = this.inputRow + 1;
             if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
@@ -130,7 +130,7 @@ public class Board {
         }
 
         @Override
-        protected Boolean isEnableSwap() {
+        protected Boolean isNextEnableSwap() {
             int checkCol = this.inputCol + 1;
             if(checkCol >= Const.MAX_ROW_COL_NUM) return true;
             return stones.get(this.inputRow).get(checkCol) != this.inputStone;
@@ -153,7 +153,7 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            for(int i = inputCol; i <= edgeCol; i++) {
+            for(int i = inputCol + 1; i <= edgeCol; i++) {
                 if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -170,7 +170,7 @@ public class Board {
         }
 
         @Override
-        protected Boolean isEnableSwap() {
+        protected Boolean isNextEnableSwap() {
             int checkCol = this.inputCol -1;
             if(checkCol < 0) {
                 return true;
@@ -195,7 +195,7 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            for(int i = inputCol; i >= edgeCol; i--) {
+            for(int i = inputCol - 1; i >= edgeCol; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -213,8 +213,8 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            int k = inputCol;
-            for(int row = inputRow; row >= edgeRow; row--) {
+            int k = inputCol + 1;
+            for(int row = inputRow - 1; row >= edgeRow; row--) {
                 if(row < 0) {
                     break;
                 }
@@ -250,7 +250,7 @@ public class Board {
         }
 
         @Override
-        protected Boolean isEnableSwap() {
+        protected Boolean isNextEnableSwap() {
             int checkRow = inputRow - 1;
             if(checkRow < 0) return true;
             int checkCol = inputCol + 1;
@@ -266,7 +266,7 @@ public class Board {
         }
 
         @Override
-        protected Boolean isEnableSwap() {
+        protected Boolean isNextEnableSwap() {
             int checkRow = this.inputRow + 1;
             if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
@@ -302,8 +302,8 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            int k = inputCol;
-            for(int row = inputRow; row <= edgeRow; row++) {
+            int k = inputCol + 1;
+            for(int row = inputRow + 1; row <= edgeRow; row++) {
                 if(row >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -324,7 +324,7 @@ public class Board {
         }
 
         @Override
-        protected Boolean isEnableSwap() {
+        protected Boolean isNextEnableSwap() {
             int checkRow = this.inputRow - 1;
             if(checkRow < 0) {
                 return true;
@@ -360,8 +360,8 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            int k = inputCol;
-            for(int row = inputRow; row >= edgeRow; row--) {
+            int k = inputCol - 1;
+            for(int row = inputRow - 1; row >= edgeRow; row--) {
                 if(row < 0) {
                     break;
                 }
@@ -382,7 +382,7 @@ public class Board {
         }
 
         @Override
-        protected Boolean isEnableSwap() {
+        protected Boolean isNextEnableSwap() {
             int checkRow = this.inputRow + 1;
             if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
@@ -418,8 +418,8 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            int k = inputCol;
-            for(int row = inputRow; row <= edgeRow; row++) {
+            int k = inputCol - 1;
+            for(int row = inputRow + 1; row <= edgeRow; row++) {
                 if(row >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -468,6 +468,10 @@ public class Board {
         int inputCol = move.getCol();
         int swapCnt = 0;
 
+        if(!isInputRowColEmpty(inputRow, inputCol)) {
+            return false;
+        }
+
         swapCnt += new SwapToUpper(player.getInputStone(), inputRow, inputCol).exec(); // 上方向にループして石を変える
         swapCnt += new SwapToLower(player.getInputStone(), inputRow, inputCol).exec(); // 下方向にループして石を変える
         swapCnt += new SwapToRight(player.getInputStone(), inputRow, inputCol).exec(); // 右方向にループして石を変える
@@ -476,7 +480,18 @@ public class Board {
         swapCnt += new SwapToRightLower(player.getInputStone(), inputRow, inputCol).exec(); // 右下方向にループして石を変える
         swapCnt += new SwapToLeftUpper(player.getInputStone(), inputRow, inputCol).exec(); // 左上方向にループして石を変える
         swapCnt += new SwapToLeftLower(player.getInputStone(), inputRow, inputCol).exec(); // 左下方向にループして石を変える
+        Boolean isSwapped = (swapCnt > 0);
+        if(isSwapped) {
+            setInputStone(player, inputRow, inputCol);
+        }
+        return isSwapped;
+    }
 
-        return (swapCnt > 0);
+    private void setInputStone(Player player, int inputRow, int inputCol){
+        stones.get(inputRow).set(inputCol, player.getInputStone());
+    }
+
+    private Boolean isInputRowColEmpty(int inputRow, int inputCol) {
+        return stones.get(inputRow).get(inputCol) == Stone.NONE;
     }
 }
