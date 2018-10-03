@@ -1,6 +1,7 @@
 package com.example.othello;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     private ArrayList<ArrayList<Stone>> stones;
@@ -481,30 +482,18 @@ public class Board {
         int inputCol = getInputCol(key);
         int swapCnt = 0;
 
-        // 上方向にループして石を変える
-        SwapToUpper swapToUpper = new SwapToUpper(player.getInputStone(), inputRow, inputCol);
-        swapCnt += swapToUpper.exec();
-        // 下方向にループして石を変える
-        SwapToLower swapToLower = new SwapToLower(player.getInputStone(), inputRow, inputCol);
-        swapCnt += swapToLower.exec();
-        // 右方向にループして石を変える
-        SwapToRight swapToRight = new SwapToRight(player.getInputStone(), inputRow, inputCol);
-        swapToRight.exec();
-        // 左方向にループして石を変える
-        SwapToLeft swapToLeft = new SwapToLeft(player.getInputStone(), inputRow, inputCol);
-        swapToLeft.exec();
-        // 右上方向にループして石を変える
-        SwapToRightUpper swapToRightUpper = new SwapToRightUpper(player.getInputStone(), inputRow, inputCol);
-        swapCnt += swapToRightUpper.exec();
-        // 右下方向にループして石を変える
-        SwapToRightLower swapToRightLower = new SwapToRightLower(player.getInputStone(), inputRow, inputCol);
-        swapCnt += swapToRightLower.exec();
-        // 左上方向にループして石を変える
-        SwapToLeftUpper swapToLeftUpper = new SwapToLeftUpper(player.getInputStone(), inputRow, inputCol);
-        swapCnt += swapToLeftUpper.exec();
-        // 左下方向にループして石を変える
-        SwapToLeftLower swapToLeftLower = new SwapToLeftLower(player.getInputStone(), inputRow, inputCol);
-        swapCnt += swapToLeftLower.exec();
+        List<SwapStones> listSwapStones = new ArrayList<SwapStones>();
+        listSwapStones.add(new SwapToUpper(player.getInputStone(), inputRow, inputCol)); // 上方向にループして石を変える
+        listSwapStones.add(new SwapToLower(player.getInputStone(), inputRow, inputCol)); // 下方向にループして石を変える
+        listSwapStones.add(new SwapToRight(player.getInputStone(), inputRow, inputCol)); // 右方向にループして石を変える
+        listSwapStones.add(new SwapToLeft(player.getInputStone(), inputRow, inputCol)); // 左方向にループして石を変える
+        listSwapStones.add(new SwapToRightUpper(player.getInputStone(), inputRow, inputCol)); // 右上方向にループして石を変える
+        listSwapStones.add(new SwapToRightLower(player.getInputStone(), inputRow, inputCol)); // 右下方向にループして石を変える
+        listSwapStones.add(new SwapToLeftUpper(player.getInputStone(), inputRow, inputCol)); // 左上方向にループして石を変える
+        listSwapStones.add(new SwapToLeftLower(player.getInputStone(), inputRow, inputCol)); // 左下方向にループして石を変える
+        for(SwapStones s : listSwapStones) {
+             swapCnt += s.exec();
+        }
         return (swapCnt > 0);
     }
 
