@@ -31,12 +31,16 @@ public class Application {
                 Terminal.requestInput(player.getName());
 
                 String key = scanner.nextLine();
-                if(key.equals(Const.KEY_END)) {
+                Move move = new Move(key);
+                if(move.isEnd()) {
                     break;
                 }
-
-                System.out.println("your input = " + key);
-                board.input(player, key);
+                if(!move.isValidAddress()) {
+                    Terminal.printInvalidMessage(move);
+                    continue;
+                }
+                Terminal.printInput(move);
+                board.input(player, move);
                 player.change();
             }
         }

@@ -5,8 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
 public class BoardTests {
     Board board;
     Player player;
@@ -31,7 +29,7 @@ public class BoardTests {
         System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
         setFirstBoard();
 
-        Boolean result = board.input(player, "5d");
+        Boolean result = board.input(player, new Move("5d"));
         System.out.println("after");
         Terminal.view(board);
 
@@ -53,7 +51,7 @@ public class BoardTests {
         System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
         setFirstBoard();
 
-        Boolean result = board.input(player, "2e");
+        Boolean result = board.input(player, new Move("2e"));
         System.out.println("after");
         Terminal.view(board);
 
@@ -75,7 +73,7 @@ public class BoardTests {
         System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
         setFirstBoard();
 
-        Boolean result = board.input(player, "4c");
+        Boolean result = board.input(player, new Move("4c"));
         System.out.println("after");
         Terminal.view(board);
 
@@ -97,7 +95,7 @@ public class BoardTests {
         System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
         setFirstBoard();
 
-        Boolean result = board.input(player, "3f");
+        Boolean result = board.input(player, new Move("3f"));
         System.out.println("after");
         Terminal.view(board);
 
@@ -129,7 +127,7 @@ public class BoardTests {
         System.out.println("before");
         Terminal.view(board);
 
-        Boolean result = board.input(player, "6b");
+        Boolean result = board.input(player, new Move("6b"));
         System.out.println("after");
         Terminal.view(board);
 
@@ -162,7 +160,7 @@ public class BoardTests {
         System.out.println("before");
         Terminal.view(board);
 
-        Boolean result = board.input(player, "2c");
+        Boolean result = board.input(player, new Move("2c"));
         System.out.println("after");
         Terminal.view(board);
 
@@ -193,7 +191,7 @@ public class BoardTests {
         System.out.println("before");
         Terminal.view(board);
 
-        Boolean result = board.input(player, "5f");
+        Boolean result = board.input(player, new Move("5f"));
         System.out.println("after");
         Terminal.view(board);
 
@@ -221,7 +219,7 @@ public class BoardTests {
         System.out.println("before");
         Terminal.view(board);
 
-        Boolean result = board.input(player, "2f");
+        Boolean result = board.input(player, new Move("2f"));
         System.out.println("after");
         Terminal.view(board);
 
@@ -246,10 +244,10 @@ public class BoardTests {
         System.out.println("right, left, upper, lower");
         player.setFirst();
         Terminal.view(board);
-        assertFalse(board.input(player, "3c")); // 右方向に隣接する石が入力したものと同じ
-        assertFalse( board.input(player, "4f")); // 左方向に隣接する石が入力したものと同じ
-        assertFalse( board.input(player, "5e")); // 上方向に隣接する石が入力したものと同じ
-        assertFalse(board.input(player, "2d")); // 下方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, new Move("3c"))); // 右方向に隣接する石が入力したものと同じ
+        assertFalse( board.input(player, new Move("4f"))); // 左方向に隣接する石が入力したものと同じ
+        assertFalse( board.input(player, new Move("5e"))); // 上方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, new Move("2d"))); // 下方向に隣接する石が入力したものと同じ
         System.out.println("after");
         Terminal.view(board);
 
@@ -257,10 +255,10 @@ public class BoardTests {
         board.getStones().get(3).set(4, Stone.BLACK);
         board.getStones().get(4).set(3, Stone.BLACK);
         Terminal.view(board);
-        assertFalse(board.input(player, "5c")); // 右上方向に隣接する石が入力したものと同じ
-        assertFalse(board.input(player, "2c")); // 右下方向に隣接する石が入力したものと同じ
-        assertFalse(board.input(player, "5f")); // 左上方向に隣接する石が入力したものと同じ
-        assertFalse(board.input(player, "2f")); // 左下方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, new Move("5c"))); // 右上方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, new Move("2c"))); // 右下方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, new Move("5f"))); // 左上方向に隣接する石が入力したものと同じ
+        assertFalse(board.input(player, new Move("2f"))); // 左下方向に隣接する石が入力したものと同じ
         System.out.println("after");
         Terminal.view(board);
     }
@@ -279,47 +277,47 @@ public class BoardTests {
         // 右方向に端が存在しない
         System.out.println("upper");
         Terminal.view(board);
-        assertFalse(board.input(player, "3c"));
+        assertFalse(board.input(player, new Move("3c")));
         System.out.println("after");
         Terminal.view(board);
         // 左方向に端が存在しない
         System.out.println("upper");
         Terminal.view(board);
-        assertFalse(board.input(player, "3f"));
+        assertFalse(board.input(player, new Move("3f")));
         System.out.println("after");
         Terminal.view(board);
         // 上方向に端が存在しない
         System.out.println("upper");
         Terminal.view(board);
-        assertFalse(board.input(player, "5d"));
+        assertFalse(board.input(player, new Move("5d")));
         System.out.println("after");
         Terminal.view(board);
         // 下方向に端が存在しない
-        assertFalse(board.input(player, "2d"));
+        assertFalse(board.input(player, new Move("2d")));
         System.out.println("after");
         Terminal.view(board);
         // 右上方向に端が存在しない
         System.out.println("upper");
         Terminal.view(board);
-        assertFalse(board.input(player, "5c"));
+        assertFalse(board.input(player, new Move("5c")));
         System.out.println("after");
         Terminal.view(board);
         // 右下方向に端が存在しない
         System.out.println("upper");
         Terminal.view(board);
-        assertFalse(board.input(player, "2f"));
+        assertFalse(board.input(player, new Move("2f")));
         System.out.println("after");
         Terminal.view(board);
         // 左上方向に端が存在しない
         System.out.println("upper");
         Terminal.view(board);
-        assertFalse(board.input(player, "5f"));
+        assertFalse(board.input(player, new Move("5f")));
         System.out.println("after");
         Terminal.view(board);
         // 左下方向に端が存在しない
         System.out.println("upper");
         Terminal.view(board);
-        assertFalse(board.input(player, "2d"));
+        assertFalse(board.input(player, new Move("2d")));
         System.out.println("after");
         Terminal.view(board);
 
@@ -357,7 +355,7 @@ public class BoardTests {
         board.getStones().get(7).set(0, Stone.BLACK);
         board.getStones().get(7).set(7, Stone.BLACK);
         Terminal.view(board);
-        result = board.input(player, "0h");
+        result = board.input(player, new Move("0h"));
         System.out.println("after");
         Terminal.view(board);
         assertTrue(result);
@@ -370,7 +368,7 @@ public class BoardTests {
         board.getStones().get(7).set(0, Stone.BLACK);
         board.getStones().get(7).set(7, Stone.BLACK);
         Terminal.view(board);
-        result = board.input(player, "0a");
+        result = board.input(player, new Move("0a"));
         System.out.println("after");
         Terminal.view(board);
         assertTrue(result);
@@ -383,7 +381,7 @@ public class BoardTests {
         board.getStones().get(7).set(0, Stone.BLACK);
         board.getStones().get(7).set(7, Stone.NONE);
         Terminal.view(board);
-        result = board.input(player, "7h");
+        result = board.input(player, new Move("7h"));
         System.out.println("after");
         Terminal.view(board);
         assertTrue(result);
@@ -396,7 +394,7 @@ public class BoardTests {
         board.getStones().get(7).set(0, Stone.NONE);
         board.getStones().get(7).set(7, Stone.BLACK);
         Terminal.view(board);
-        result = board.input(player, "7a");
+        result = board.input(player, new Move("7a"));
         System.out.println("after");
         Terminal.view(board);
         assertTrue(result);

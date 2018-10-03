@@ -434,22 +434,22 @@ public class Board {
 
     }
 
-    public enum ColumnTitle{
-        a(0),
-        b(1),
-        c(2),
-        d(3),
-        e(4),
-        f(5),
-        g(6),
-        h(7);
-
-        private final int id;
-
-        private ColumnTitle(final int id) {
-            this.id = id;
-        }
-    };
+//    public enum ColumnTitle{
+//        a(0),
+//        b(1),
+//        c(2),
+//        d(3),
+//        e(4),
+//        f(5),
+//        g(6),
+//        h(7);
+//
+//        private final int id;
+//
+//        private ColumnTitle(final int id) {
+//            this.id = id;
+//        }
+//    };
 
     private Board() {
         stones = new ArrayList<ArrayList<Stone>>();
@@ -480,9 +480,9 @@ public class Board {
         return stones;
     }
 
-    public Boolean input(Player player, String key) {
-        int inputRow = Integer.parseInt(key.substring(0, 1));
-        int inputCol = getInputCol(key);
+    public Boolean input(Player player, Move move) {
+        int inputRow = move.getRow();
+        int inputCol = move.getCol();
         int swapCnt = 0;
 
         swapCnt += new SwapToUpper(player.getInputStone(), inputRow, inputCol).exec(); // 上方向にループして石を変える
@@ -495,9 +495,5 @@ public class Board {
         swapCnt += new SwapToLeftLower(player.getInputStone(), inputRow, inputCol).exec(); // 左下方向にループして石を変える
 
         return (swapCnt > 0);
-    }
-
-    private int getInputCol(String key) {
-        return ColumnTitle.valueOf(key.substring(1)).id;
     }
 }

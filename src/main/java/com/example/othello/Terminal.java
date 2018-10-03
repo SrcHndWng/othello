@@ -31,6 +31,14 @@ public class Terminal {
         System.out.printf("You're %s. Input address >%n", player);
     }
 
+    public static void printInput(Move move) {
+        System.out.println("your input = " + move.getKey());
+    }
+
+    public static void printInvalidMessage(Move move) {
+        System.out.printf("your input = %s. Please input [0-7][a-h] like '2d'.%n", move.getKey());
+    }
+
     public static void bye() {
         System.out.println("Thanks for your playing. Bye!");
     }

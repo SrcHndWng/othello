@@ -10,4 +10,8 @@ public enum Stone {
     private Stone(final int id) {
         this.id = id;
     }
+
+    public int getId() {
+        return this.id;
+    }
 }
