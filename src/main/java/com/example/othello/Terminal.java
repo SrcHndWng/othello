@@ -26,7 +26,9 @@ public class Terminal {
             System.out.println(i + " " + column.toString());
         }
     }
-
+    public static void dispCompleteMessage(StonesCount count) {
+        System.out.printf("Game complete! black = %d, white = %d%n", count.getBlack(), count.getWhite());
+    }
     public static void dispRequestInputMessage(String player) {
         System.out.printf("You're %s. Input address >%n", player);
     }

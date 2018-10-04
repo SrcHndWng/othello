@@ -28,12 +28,21 @@ public class Application {
         try(Scanner scanner = new Scanner(System.in)){
             while(true) {
                 Terminal.dispBoard(board);
+                StonesCount count = board.getStonesCount();
+                if(count.isComplete()) {
+                    Terminal.dispCompleteMessage(count);
+                    break;
+                }
                 Terminal.dispRequestInputMessage(player.getName());
 
                 String key = scanner.nextLine();
                 Move move = new Move(key);
                 if(move.isEnd()) {
                     break;
+                }
+                if(move.isSkip()) {
+                    player.change();
+                    continue;
                 }
                 if(!move.isValidAddress()) {
                     Terminal.dispInvalidMessage(move);

@@ -56,4 +56,10 @@ public class MoveTest {
          move = new Move("exit");
          assertTrue(move.isEnd());
     }
+    public void skipKey() {
+        Move move;
+
+        move = new Move("skip");
+        assertFalse(move.isSkip());
+    }
 }

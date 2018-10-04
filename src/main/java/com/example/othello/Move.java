@@ -21,14 +21,15 @@ public class Move {
     public int getCol() {
         return ColumnTitle.valueOf(key.substring(1)).getId();
     }
-
     public Boolean isValidAddress() {
         Pattern p = Pattern.compile("^[0-7][a-h]$");
         Matcher m = p.matcher(key);
         return m.find();
     }
-
     public Boolean isEnd() {
         return key.equals(Const.KEY_END) || key.equals(Const.KEY_EXIT);
+    }
+    public Boolean isSkip() {
+        return key.equals(Const.KEY_SKIP);
     }
 }

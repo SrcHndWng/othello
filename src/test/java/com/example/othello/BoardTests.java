@@ -399,4 +399,75 @@ public class BoardTests {
         Terminal.dispBoard(board);
         assertTrue(result);
     }
+
+    /**
+     * 片方方向に変換、別方向は変換なし
+     */
+    @Test
+    public void swapOneAndAnotherUnable() {
+        System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
+        player.setFirst();
+
+        // 上方向に変換、右方向は変換なし
+        System.out.println("swap upper, unable right");
+        board.getStones().get(3).set(0, Stone.BLACK);
+        board.getStones().get(3).set(1, Stone.WHITE);
+        board.getStones().get(3).set(2, Stone.WHITE);
+        board.getStones().get(4).set(0, Stone.WHITE);
+        board.getStones().get(4).set(1, Stone.WHITE);
+        board.getStones().get(4).set(2, Stone.WHITE);
+        board.getStones().get(5).set(0, Stone.WHITE);
+        board.getStones().get(5).set(1, Stone.WHITE);
+        board.getStones().get(5).set(2, Stone.WHITE);
+        board.getStones().get(5).set(3, Stone.WHITE);
+        board.getStones().get(5).set(4, Stone.WHITE);
+        board.getStones().get(6).set(0, Stone.WHITE);
+        board.getStones().get(6).set(1, Stone.WHITE);
+        board.getStones().get(6).set(2, Stone.WHITE);
+        board.getStones().get(6).set(3, Stone.WHITE);
+        board.getStones().get(6).set(4, Stone.WHITE);
+        board.getStones().get(7).set(2, Stone.WHITE);
+        board.getStones().get(7).set(3, Stone.WHITE);
+        board.getStones().get(7).set(4, Stone.BLACK);
+        System.out.println("before");
+        Terminal.dispBoard(board);
+        Boolean result = board.input(player, new Move("7a"));
+        System.out.println("after");
+        Terminal.dispBoard(board);
+        assertTrue(result);
+    }
+
+    /**
+     * 全ての場所に石が配置されたか
+     */
+    @Test
+    public void completeTest() {
+        System.out.printf("----- %s -----%n", new Object(){}.getClass().getEnclosingMethod().getName());
+        player.setFirst();
+        StonesCount count;
+
+        System.out.println("input complete");
+        for(int i = 0; i < Const.MAX_ROW_COL_NUM; i++) {
+            for(int j = 0; j < Const.MAX_ROW_COL_NUM; j++ ) {
+                if((j % 2) == 0){
+                    board.getStones().get(i).set(j, Stone.WHITE);
+                }else {
+                    board.getStones().get(i).set(j, Stone.BLACK);
+                }
+            }
+        }
+        Terminal.dispBoard(board);
+        count = board.getStonesCount();
+        assertTrue(count.isComplete());
+        assertEquals(32, count.getBlack());
+        assertEquals(32, count.getWhite());
+
+        System.out.println("input not complete");
+        board.getStones().get(Const.MAX_ROW_COL_NUM -1).set(Const.MAX_ROW_COL_NUM -2, Stone.NONE);
+        Terminal.dispBoard(board);
+        count = board.getStonesCount();
+        assertFalse(count.isComplete());
+        assertEquals(32, count.getBlack());
+        assertEquals(31, count.getWhite());
+    }
 }

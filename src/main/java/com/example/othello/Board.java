@@ -53,6 +53,10 @@ public class Board {
         protected int getRightOfInputCol() {
             return inputCol + 1;
         }
+        protected Boolean isOppositeStone(int checkRow, int checkCol) {
+            return (stones.get(checkRow).get(checkCol) != Stone.NONE) &&
+                   (stones.get(checkRow).get(checkCol) != this.inputStone);
+        }
     }
 
     private class SwapToUpper extends SwapStones{
@@ -90,7 +94,7 @@ public class Board {
         protected Boolean isNextEnableSwap() {
             int checkRow = getUpperOfInputRow();
             if(checkRow < 0) return false;
-            return stones.get(checkRow).get(this.inputCol) != this.inputStone;
+            return isOppositeStone(checkRow, this.inputCol);
         }
     }
 
@@ -131,7 +135,7 @@ public class Board {
             if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
-            return stones.get(checkRow).get(this.inputCol) != this.inputStone;
+            return isOppositeStone(checkRow, this.inputCol);
         }
 
     }
@@ -145,7 +149,7 @@ public class Board {
         protected Boolean isNextEnableSwap() {
             int checkCol = getRightOfInputCol();
             if(checkCol >= Const.MAX_ROW_COL_NUM) return true;
-            return stones.get(this.inputRow).get(checkCol) != this.inputStone;
+            return isOppositeStone(this.inputRow, checkCol);
         }
 
         @Override
@@ -187,7 +191,7 @@ public class Board {
             if(checkCol < 0) {
                 return true;
             }
-            return stones.get(this.inputRow).get(checkCol) != this.inputStone;
+            return isOppositeStone(this.inputRow, checkCol);
         }
 
         @Override
@@ -267,7 +271,7 @@ public class Board {
             if(checkRow < 0) return true;
             int checkCol = getRightOfInputCol();
             if(checkCol >= Const.MAX_ROW_COL_NUM) return true;
-            return stones.get(checkRow).get(checkCol) != this.inputStone;
+            return isOppositeStone(checkRow, checkCol);
         }
 
     }
@@ -287,7 +291,7 @@ public class Board {
             if(checkCol >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
-            return stones.get(checkRow).get(checkCol) != this.inputStone;
+            return isOppositeStone(checkRow, checkCol);
         }
 
         @Override
@@ -345,7 +349,7 @@ public class Board {
             if(checkCol < 0) {
                 return true;
             }
-            return stones.get(checkRow).get(checkCol) != this.inputStone;
+            return isOppositeStone(checkRow, checkCol);
         }
 
         @Override
@@ -403,7 +407,7 @@ public class Board {
             if(checkCol < 0) {
                 return true;
             }
-            return stones.get(checkRow).get(checkCol) != this.inputStone;
+            return isOppositeStone(checkRow, checkCol);
         }
 
         @Override
@@ -502,6 +506,28 @@ public class Board {
             setInputStone(player, inputRow, inputCol);
         }
         return isSwapped;
+    }
+
+    public StonesCount getStonesCount() {
+        int blackCount = 0;
+        int whiteCount = 0;
+        int noneCount = 0;
+        for(int i = 0; i < Const.MAX_ROW_COL_NUM; i++) {
+            for(int j = 0; j < Const.MAX_ROW_COL_NUM; j++ ) {
+                switch(stones.get(i).get(j)) {
+                case BLACK:
+                    blackCount++;
+                    break;
+                case WHITE:
+                    whiteCount++;
+                    break;
+                case NONE:
+                    noneCount++;
+                    break;
+                }
+            }
+        }
+        return new StonesCount(blackCount, whiteCount, noneCount);
     }
 
     private void setInputStone(Player player, int inputRow, int inputCol){
