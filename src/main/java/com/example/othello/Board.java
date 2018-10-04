@@ -41,6 +41,18 @@ public class Board {
         protected Boolean isExistEdge(int edgeRow, int edgeCol) {
             return (edgeRow > UNDEFINED_ROW_COL) && (edgeCol > UNDEFINED_ROW_COL);
         }
+        protected int getUpperOfInputRow() {
+            return inputRow - 1;
+        }
+        protected int getLowerOfInputRow() {
+            return inputRow + 1;
+        }
+        protected int getLeftOfInputCol() {
+            return inputCol - 1;
+        }
+        protected int getRightOfInputCol() {
+            return inputCol + 1;
+        }
     }
 
     private class SwapToUpper extends SwapStones{
@@ -50,7 +62,7 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            for(int i = inputRow - 1; i >= edgeRow; i--) {
+            for(int i = getUpperOfInputRow(); i >= edgeRow; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -62,7 +74,7 @@ public class Board {
         @Override
         protected Edge getEdge() {
             int edgeRow = UNDEFINED_ROW_COL;
-            for(int i = inputRow - 1; i >= 0; i--) {
+            for(int i = getUpperOfInputRow(); i >= 0; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -76,7 +88,7 @@ public class Board {
 
         @Override
         protected Boolean isNextEnableSwap() {
-            int checkRow = this.inputRow - 1;
+            int checkRow = getUpperOfInputRow();
             if(checkRow < 0) return false;
             return stones.get(checkRow).get(this.inputCol) != this.inputStone;
         }
@@ -89,7 +101,7 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            for(int i = inputRow + 1; i <= edgeRow; i++) {
+            for(int i = getLowerOfInputRow(); i <= edgeRow; i++) {
                 if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -101,7 +113,7 @@ public class Board {
         @Override
         protected Edge getEdge() {
             int edgeRow = UNDEFINED_ROW_COL;
-            for(int i = inputRow + 1; i < Const.MAX_ROW_COL_NUM; i++) {
+            for(int i = getLowerOfInputRow(); i < Const.MAX_ROW_COL_NUM; i++) {
                 if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -115,7 +127,7 @@ public class Board {
 
         @Override
         protected Boolean isNextEnableSwap() {
-            int checkRow = this.inputRow + 1;
+            int checkRow = getLowerOfInputRow();
             if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
@@ -131,7 +143,7 @@ public class Board {
 
         @Override
         protected Boolean isNextEnableSwap() {
-            int checkCol = this.inputCol + 1;
+            int checkCol = getRightOfInputCol();
             if(checkCol >= Const.MAX_ROW_COL_NUM) return true;
             return stones.get(this.inputRow).get(checkCol) != this.inputStone;
         }
@@ -139,7 +151,7 @@ public class Board {
         @Override
         protected Edge getEdge() {
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputCol + 1; i < Const.MAX_ROW_COL_NUM; i++) {
+            for(int i = getRightOfInputCol(); i < Const.MAX_ROW_COL_NUM; i++) {
                 if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -153,7 +165,7 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            for(int i = inputCol + 1; i <= edgeCol; i++) {
+            for(int i = getRightOfInputCol(); i <= edgeCol; i++) {
                 if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -181,7 +193,7 @@ public class Board {
         @Override
         protected Edge getEdge() {
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputCol - 1; i >= 0; i--) {
+            for(int i = getLeftOfInputCol(); i >= 0; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -195,7 +207,7 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            for(int i = inputCol - 1; i >= edgeCol; i--) {
+            for(int i = getLeftOfInputCol(); i >= edgeCol; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -213,8 +225,8 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            int k = inputCol + 1;
-            for(int row = inputRow - 1; row >= edgeRow; row--) {
+            int k = getRightOfInputCol();
+            for(int row = getUpperOfInputRow(); row >= edgeRow; row--) {
                 if(row < 0) {
                     break;
                 }
@@ -229,10 +241,10 @@ public class Board {
 
         @Override
         protected Edge getEdge() {
-            int j = inputCol + 1;
+            int j = getRightOfInputCol();
             int edgeRow = UNDEFINED_ROW_COL;
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputRow - 1; i >= 0; i--) {
+            for(int i = getUpperOfInputRow(); i >= 0; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -251,9 +263,9 @@ public class Board {
 
         @Override
         protected Boolean isNextEnableSwap() {
-            int checkRow = inputRow - 1;
+            int checkRow = getUpperOfInputRow();
             if(checkRow < 0) return true;
-            int checkCol = inputCol + 1;
+            int checkCol = getRightOfInputCol();
             if(checkCol >= Const.MAX_ROW_COL_NUM) return true;
             return stones.get(checkRow).get(checkCol) != this.inputStone;
         }
@@ -267,11 +279,11 @@ public class Board {
 
         @Override
         protected Boolean isNextEnableSwap() {
-            int checkRow = this.inputRow + 1;
+            int checkRow = getLowerOfInputRow();
             if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
-            int checkCol = this.inputCol + 1;
+            int checkCol = getRightOfInputCol();
             if(checkCol >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
@@ -280,10 +292,10 @@ public class Board {
 
         @Override
         protected Edge getEdge() {
-            int j = inputCol + 1;
+            int j = getRightOfInputCol();
             int edgeRow = UNDEFINED_ROW_COL;
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputRow + 1; i < Const.MAX_ROW_COL_NUM; i++) {
+            for(int i = getLowerOfInputRow(); i < Const.MAX_ROW_COL_NUM; i++) {
                 if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -302,8 +314,8 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            int k = inputCol + 1;
-            for(int row = inputRow + 1; row <= edgeRow; row++) {
+            int k = getRightOfInputCol();
+            for(int row = getLowerOfInputRow(); row <= edgeRow; row++) {
                 if(row >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -325,11 +337,11 @@ public class Board {
 
         @Override
         protected Boolean isNextEnableSwap() {
-            int checkRow = this.inputRow - 1;
+            int checkRow = getUpperOfInputRow();
             if(checkRow < 0) {
                 return true;
             }
-            int checkCol = this.inputCol - 1;
+            int checkCol = getLeftOfInputCol();
             if(checkCol < 0) {
                 return true;
             }
@@ -338,10 +350,10 @@ public class Board {
 
         @Override
         protected Edge getEdge() {
-            int j = inputCol - 1;
+            int j = getLeftOfInputCol();
             int edgeRow = UNDEFINED_ROW_COL;
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputRow - 1; i >= 0; i--) {
+            for(int i = getUpperOfInputRow(); i >= 0; i--) {
                 if(i < 0) {
                     break;
                 }
@@ -360,8 +372,8 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            int k = inputCol - 1;
-            for(int row = inputRow - 1; row >= edgeRow; row--) {
+            int k = getLeftOfInputCol();
+            for(int row = getUpperOfInputRow(); row >= edgeRow; row--) {
                 if(row < 0) {
                     break;
                 }
@@ -383,11 +395,11 @@ public class Board {
 
         @Override
         protected Boolean isNextEnableSwap() {
-            int checkRow = this.inputRow + 1;
+            int checkRow = getLowerOfInputRow();
             if(checkRow >= Const.MAX_ROW_COL_NUM) {
                 return true;
             }
-            int checkCol = this.inputCol - 1;
+            int checkCol = getLeftOfInputCol();
             if(checkCol < 0) {
                 return true;
             }
@@ -396,10 +408,10 @@ public class Board {
 
         @Override
         protected Edge getEdge() {
-            int j = inputCol - 1;
+            int j = getLeftOfInputCol();
             int edgeRow = UNDEFINED_ROW_COL;
             int edgeCol = UNDEFINED_ROW_COL;
-            for(int i = inputRow + 1; i < Const.MAX_ROW_COL_NUM; i++) {
+            for(int i = getLowerOfInputRow(); i < Const.MAX_ROW_COL_NUM; i++) {
                 if(i >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
@@ -418,8 +430,8 @@ public class Board {
 
         @Override
         protected int swap(int edgeRow, int edgeCol) {
-            int k = inputCol - 1;
-            for(int row = inputRow + 1; row <= edgeRow; row++) {
+            int k = getLeftOfInputCol();
+            for(int row = getLowerOfInputRow(); row <= edgeRow; row++) {
                 if(row >= Const.MAX_ROW_COL_NUM) {
                     break;
                 }
