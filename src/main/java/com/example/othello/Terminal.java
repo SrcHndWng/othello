@@ -3,7 +3,7 @@ package com.example.othello;
 import java.util.ArrayList;
 
 public class Terminal {
-    public static void view(Board board) {
+    public static void dispBoard(Board board) {
         System.out.println("- abcdefgh");
         for(int i = 0; i < board.getStones().size(); i++) {
             ArrayList<Stone> row = board.getStones().get(i);
@@ -27,19 +27,19 @@ public class Terminal {
         }
     }
 
-    public static void requestInput(String player) {
+    public static void dispRequestInputMessage(String player) {
         System.out.printf("You're %s. Input address >%n", player);
     }
 
-    public static void printInput(Move move) {
+    public static void dispInputKey(Move move) {
         System.out.println("your input = " + move.getKey());
     }
 
-    public static void printInvalidMessage(Move move) {
+    public static void dispInvalidMessage(Move move) {
         System.out.printf("your input = %s. Please input [0-7][a-h] like '2d'.%n", move.getKey());
     }
 
-    public static void printInvalidAddress(Move move) {
+    public static void dispInvalidAddress(Move move) {
         System.out.printf("your input = %s. You can't change stones.%n", move.getKey());
     }
 

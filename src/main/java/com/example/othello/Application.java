@@ -27,8 +27,8 @@ public class Application {
 
         try(Scanner scanner = new Scanner(System.in)){
             while(true) {
-                Terminal.view(board);
-                Terminal.requestInput(player.getName());
+                Terminal.dispBoard(board);
+                Terminal.dispRequestInputMessage(player.getName());
 
                 String key = scanner.nextLine();
                 Move move = new Move(key);
@@ -36,13 +36,13 @@ public class Application {
                     break;
                 }
                 if(!move.isValidAddress()) {
-                    Terminal.printInvalidMessage(move);
+                    Terminal.dispInvalidMessage(move);
                     continue;
                 }
-                Terminal.printInput(move);
+                Terminal.dispInputKey(move);
                 Boolean isSwapped = board.input(player, move);
                 if(!isSwapped) {
-                    Terminal.printInvalidAddress(move);
+                    Terminal.dispInvalidAddress(move);
                     continue;
                 }
                 player.change();

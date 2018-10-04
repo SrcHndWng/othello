@@ -7,9 +7,9 @@ public class Board {
     private final int UNDEFINED_ROW_COL = -1;
 
     private abstract class SwapStones{
-        Stone inputStone;
-        int inputRow;
-        int inputCol;
+        protected Stone inputStone;
+        protected int inputRow;
+        protected int inputCol;
 
         protected class Edge{
             private int row;
