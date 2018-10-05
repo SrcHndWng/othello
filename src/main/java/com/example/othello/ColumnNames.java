@@ -1,6 +1,6 @@
 package com.example.othello;
 
-public enum ColumnTitle {
+public enum ColumnNames {
     a(0),
     b(1),
     c(2),
@@ -12,7 +12,7 @@ public enum ColumnTitle {
 
     private final int id;
 
-    private ColumnTitle(final int id) {
+    private ColumnNames(final int id) {
         this.id = id;
     }
 

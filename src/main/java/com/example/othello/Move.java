@@ -19,7 +19,7 @@ public class Move {
     }
 
     public int getCol() {
-        return ColumnTitle.valueOf(key.substring(1)).getId();
+        return ColumnNames.valueOf(key.substring(1)).getId();
     }
     public Boolean isValidAddress() {
         Pattern p = Pattern.compile("^[0-7][a-h]$");
@@ -27,9 +27,9 @@ public class Move {
         return m.find();
     }
     public Boolean isEnd() {
-        return key.equals(Const.KEY_END) || key.equals(Const.KEY_EXIT);
+        return key.equals(Const.Key.END) || key.equals(Const.Key.EXIT);
     }
     public Boolean isSkip() {
-        return key.equals(Const.KEY_SKIP);
+        return key.equals(Const.Key.SKIP);
     }
 }
