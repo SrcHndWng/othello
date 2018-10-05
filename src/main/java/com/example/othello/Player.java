@@ -1,27 +1,27 @@
 package com.example.othello;
 
 public class Player {
-    private Stone inputStone;
+    private Stone stone;
 
     public void setFirst() {
-        inputStone = Stone.BLACK;
+        stone = Stone.BLACK;
     }
 
-    public Stone getInputStone() {
-        return inputStone;
+    public Stone getStone() {
+        return stone;
     }
 
     public String getName() {
-        return inputStone.toString();
+        return stone.toString();
     }
 
     public void change() {
-        switch(inputStone) {
+        switch(stone) {
         case BLACK:
-            inputStone = Stone.WHITE;
+            stone = Stone.WHITE;
             break;
         case WHITE:
-            inputStone = Stone.BLACK;
+            stone = Stone.BLACK;
             break;
         default:
             throw new IllegalStateException("Stone uninitialized.");

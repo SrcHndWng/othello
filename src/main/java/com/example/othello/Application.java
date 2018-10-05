@@ -33,7 +33,7 @@ public class Application {
                     Terminal.dispCompleteMessage(count);
                     break;
                 }
-                Terminal.dispRequestInputMessage(player.getName());
+                Terminal.dispRequestInputMessage(player);
 
                 String key = scanner.nextLine();
                 Move move = new Move(key);

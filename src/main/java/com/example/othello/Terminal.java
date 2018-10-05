@@ -10,19 +10,7 @@ public class Terminal {
             ArrayList<Stone> row = board.getStones().get(i);
             StringBuilder column = new StringBuilder();
             row.forEach(col -> {
-                switch(col) {
-                case NONE:
-                    column.append("-");
-                    break;
-                case BLACK:
-                    column.append("X");
-                    break;
-                case WHITE:
-                    column.append("O");
-                    break;
-                default:
-                    throw new IllegalStateException("Illegal Stone.");
-                }
+                column.append(getDispStone(col));
             });
             System.out.println(i + " " + column.toString());
         }
@@ -30,8 +18,8 @@ public class Terminal {
     public static void dispCompleteMessage(StonesCount count) {
         System.out.printf("Game complete! black = %d, white = %d%n", count.getBlack(), count.getWhite());
     }
-    public static void dispRequestInputMessage(String player) {
-        System.out.printf("You're %s. Input address >%n", player);
+    public static void dispRequestInputMessage(Player player) {
+        System.out.printf("You're %s [%s]. Input address >%n", player.getName(), getDispStone(player.getStone()));
     }
     public static void dispInputKey(Move move) {
         System.out.println("your input = " + move.getKey());
@@ -47,5 +35,16 @@ public class Terminal {
     }
     private static String createHeader() {
         return "- " + Stream.of(ColumnNames.values()).collect(StringBuilder::new, StringBuilder::append, StringBuilder::append).toString();
+    }
+    private static String getDispStone(Stone stone) {
+        switch(stone) {
+        case NONE:
+            return "-";
+        case BLACK:
+            return "X";
+        case WHITE:
+            return "O";
+        }
+        throw new IllegalStateException("Illegal Stone.");
     }
 }

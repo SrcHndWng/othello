@@ -493,14 +493,14 @@ public class Board {
             return false;
         }
 
-        swapCnt += new SwapToUpper(player.getInputStone(), inputRow, inputCol).exec(); // 上方向にループして石を変える
-        swapCnt += new SwapToLower(player.getInputStone(), inputRow, inputCol).exec(); // 下方向にループして石を変える
-        swapCnt += new SwapToRight(player.getInputStone(), inputRow, inputCol).exec(); // 右方向にループして石を変える
-        swapCnt += new SwapToLeft(player.getInputStone(), inputRow, inputCol).exec(); // 左方向にループして石を変える
-        swapCnt += new SwapToRightUpper(player.getInputStone(), inputRow, inputCol).exec(); // 右上方向にループして石を変える
-        swapCnt += new SwapToRightLower(player.getInputStone(), inputRow, inputCol).exec(); // 右下方向にループして石を変える
-        swapCnt += new SwapToLeftUpper(player.getInputStone(), inputRow, inputCol).exec(); // 左上方向にループして石を変える
-        swapCnt += new SwapToLeftLower(player.getInputStone(), inputRow, inputCol).exec(); // 左下方向にループして石を変える
+        swapCnt += new SwapToUpper(player.getStone(), inputRow, inputCol).exec(); // 上方向にループして石を変える
+        swapCnt += new SwapToLower(player.getStone(), inputRow, inputCol).exec(); // 下方向にループして石を変える
+        swapCnt += new SwapToRight(player.getStone(), inputRow, inputCol).exec(); // 右方向にループして石を変える
+        swapCnt += new SwapToLeft(player.getStone(), inputRow, inputCol).exec(); // 左方向にループして石を変える
+        swapCnt += new SwapToRightUpper(player.getStone(), inputRow, inputCol).exec(); // 右上方向にループして石を変える
+        swapCnt += new SwapToRightLower(player.getStone(), inputRow, inputCol).exec(); // 右下方向にループして石を変える
+        swapCnt += new SwapToLeftUpper(player.getStone(), inputRow, inputCol).exec(); // 左上方向にループして石を変える
+        swapCnt += new SwapToLeftLower(player.getStone(), inputRow, inputCol).exec(); // 左下方向にループして石を変える
         Boolean isSwapped = (swapCnt > 0);
         if(isSwapped) {
             setInputStone(player, inputRow, inputCol);
@@ -531,7 +531,7 @@ public class Board {
     }
 
     private void setInputStone(Player player, int inputRow, int inputCol){
-        stones.get(inputRow).set(inputCol, player.getInputStone());
+        stones.get(inputRow).set(inputCol, player.getStone());
     }
 
     private Boolean isInputRowColEmpty(int inputRow, int inputCol) {
